@@ -12,19 +12,27 @@ public class Go {
 	private List<Joueur> joueurs = new ArrayList<Joueur>();
 	private int actualJoueur;
 	
-	public Go(String pseudo1, String pseudo2){
+	public Go(int taille, String pseudo1, String pseudo2){
+		
 		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire)));
 		actualJoueur = 0;
 		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc)));
+		plateau = new Plateau(taille);
+	}
+	
+	public Go(String pseudo1, String pseudo2){
 		
-		plateau = new Plateau();
+		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire)));
+		actualJoueur = 0;
+		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc)));
+		plateau = new Plateau(19);
 	}
 	
 	//Lancement du jeu
 	public void jouer(){
-		while(true){
-			jouerPierreConsole();			
+		while(true){		
 			System.out.println(this);
+			jouerPierreConsole();	
 		}
 	}
 	
@@ -82,8 +90,8 @@ public class Go {
 	}
 	
 	public String toString(){
-		String print = "\t";
-		print+=joueurs.get(0).getPseudo()+" ("+joueurs.get(0).getPierre()+")\t Vs\t "+joueurs.get(1).getPseudo()+" ("+joueurs.get(1).getPierre()+")\n";
+		String print = "(";
+		print+=joueurs.get(0).getPierre()+")"+joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo()+"("+joueurs.get(1).getPierre()+")\n";
 		print+=plateau;
 		return print;
 	}

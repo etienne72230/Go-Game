@@ -11,7 +11,7 @@ public class PlateauTest {
 	
 	@Test
 	public void testPlateau() {
-		Plateau plateau = new Plateau();
+		Plateau plateau = new Plateau(19);
 		Pierre pB = new Pierre(CouleurPierre.Blanc);
 		Pierre pN = new Pierre(CouleurPierre.Noire);
 		
@@ -34,6 +34,8 @@ public class PlateauTest {
 		assertEquals("Pierre bien supprimé", null, plateau.getPierre(15, 11));
 		assertEquals("Suppression hors limite impossible", false, plateau.removePierre(20, 19));
 		
+		plateau = new Plateau(10);
+		assertEquals("Ajout pierre sur un plateau plus petit impossible", false ,plateau.addPierre(15, 11, pN));
 		
 	}
 

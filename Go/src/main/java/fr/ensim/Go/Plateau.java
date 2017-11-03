@@ -5,11 +5,13 @@ import java.util.List;
 
 public class Plateau {
 
+	private int taille;
 	private List<Intersection> intersections = new ArrayList<Intersection>();
 	
-	public Plateau(){
-		for(int y = 0; y < 19 ; y++){
-			for(int x = 0; x < 19 ; x++){
+	public Plateau(int taille){
+		this.taille = taille;
+		for(int y = 0; y < taille ; y++){
+			for(int x = 0; x < taille ; x++){
 				intersections.add(new Intersection(x, y));
 			}
 		}
@@ -53,20 +55,28 @@ public class Plateau {
 		return null;
 	}
 	
+	//Retourne la taille du plateau
+	public int getTaille(){
+		return taille;
+	}
+	
 	public String toString(){
-		String print = "###########################################################\n";
-		for(int y = 0; y < 19 ; y++){
+		String print = "";
+		for(int i=0 ; i<taille*3 ; i++) print+="#";
+		print+="##\n";
+		for(int y = 0; y < taille ; y++){
 			print+="#";
-			for(int x = 0; x < 19 ; x++){
-				if(intersections.get(x+19*y).getPierre()!=null){
-					print+=" "+intersections.get(x+19*y).getPierre()+" ";
+			for(int x = 0; x < taille ; x++){
+				if(intersections.get(x+taille*y).getPierre()!=null){
+					print+=" "+intersections.get(x+taille*y).getPierre()+" ";
 				}else{
 					print+=" + ";
 				}
 			}
 			print+="#\n";
 		}
-		print += "###########################################################";
+		for(int i=0 ; i<taille*3 ; i++) print+="#";
+		print+="##";
 		return print;
 	}
 	
