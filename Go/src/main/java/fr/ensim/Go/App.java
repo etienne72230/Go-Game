@@ -8,6 +8,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Go go = new Go("Etienne", "Perdant");
+        go.jouer();
     }
 }
