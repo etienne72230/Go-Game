@@ -20,20 +20,16 @@ public class Go {
 		plateau = new Plateau();
 	}
 	
+	//Lancement du jeu
 	public void jouer(){
-		String saisie ="";
-		String[] coords;
 		while(true){
-			do{
-				saisie=lireString();
-				coords = saisie.split(" ");
-			}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false || jouerPierre(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])) == false);
-			
+			jouerPierreConsole();			
 			System.out.println(this);
 		}
 	}
 	
 	
+	//Ajoute une pierre au plateau et passe au tour de l'adversaire
 	private boolean jouerPierre(int x, int y){
 		if(plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre())){
 			actualJoueur=(actualJoueur+1)%2;
@@ -43,10 +39,22 @@ public class Go {
 		}
 	}
 	
+	//Retourne le joueur a qui c'est le tour de jouer
 	public Joueur getActualJoueur(){
 		return joueurs.get(actualJoueur);
 	}
 	
+	//Jouer une pierre depuis la console
+	private void jouerPierreConsole(){
+		String saisie ="";
+		String[] coords;
+		do{
+			saisie=lireString();
+			coords = saisie.split(" ");
+		}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false || jouerPierre(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])) == false);
+	}
+	
+	//Lire un string saisie par l'utilisateur dans la console
 	private static String lireString ()   
     {
         String ligne_lue = null ;
@@ -63,6 +71,7 @@ public class Go {
         return ligne_lue ;
     }
 	
+	//Test si le string est bien castable en entier
 	boolean tryParseInt(String value) {  
 	     try {  
 	         Integer.parseInt(value);  

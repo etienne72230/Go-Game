@@ -15,6 +15,7 @@ public class Plateau {
 		}
 	}
 	
+	//Ajout d'une pierre sur une intersection
 	public boolean addPierre(int x, int y, Pierre p){
 		
 		for(Intersection inter : intersections){
@@ -30,6 +31,7 @@ public class Plateau {
 		return false;
 	}
 	
+	//Suppression d'une pierre sur une intersection
 	public boolean removePierre(int x, int y){
 		for(Intersection inter : intersections){
 			if( inter.getX() == x && inter.getY() == y){
@@ -40,6 +42,7 @@ public class Plateau {
 		return false;		
 	}
 	
+	//Retourne la pierre sur l'intersection voulue s'il y en a une
 	public Pierre getPierre(int x, int y){
 		
 		for(Intersection inter : intersections){
