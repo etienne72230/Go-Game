@@ -19,19 +19,29 @@ public class Plateau {
 	}
 	
 	//Ajout d'une pierre sur une intersection
-	public boolean addPierre(int x, int y, Pierre p){
-		
+	public int addPierre(int x, int y, Pierre p){
+		int points=0;
 		for(Intersection inter : intersections){
 			if( inter.getX() == x && inter.getY() == y){
 				if(inter.getPierre()==null){
 					inter.setPierre(p);
-					return true;
-				}else{
-					return false;
+					points += updatePlateau(x, y, p);
+					//Si le joueur ne fait pas de point il ne faut pas qu'il soit fait prisonnier (coup suicidaire)
+					if(points==0){
+						indexPrisonniers.clear();
+						if(p.getCouleur()==CouleurPierre.Blanc) groupePrisonnier(x, y, new Pierre(CouleurPierre.Noire));
+						if(p.getCouleur()==CouleurPierre.Noire) groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
+						if(isPrisonniers()){
+							removePierre(x, y);
+							System.out.println("Coup suicidaire");
+							return -1;
+						}
+					}
+				return points;
 				}
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	//Suppression d'une pierre sur une intersection
@@ -56,7 +66,9 @@ public class Plateau {
 		return null;
 	}
 	
-	//Mise a jour du plateau retourne le nombre de pierre enprisonner
+	//Mise a jour du plateau retourne le nombre de pierre enprisonné
+	//Retourne -1 si le coup n'est pas jouable
+	//Retourne sinon le nombre de prisonnier effectué
 	public int updatePlateau(int x, int y, Pierre p){
 		int prisonnier = 0;
 		for(Intersection inter : intersections){
@@ -65,7 +77,7 @@ public class Plateau {
 				if(inter.getPierre().getCouleur()!= p.getCouleur()){
 					indexPrisonniers.clear();
 					groupePrisonnier(x, y-1, p);
-					if(checkPrisonniers(p)){
+					if(isPrisonniers()){
 						prisonnier += removePrisonniers();
 					}
 				}
@@ -75,7 +87,7 @@ public class Plateau {
 				if(inter.getPierre().getCouleur()!=p.getCouleur()){
 					indexPrisonniers.clear();
 					groupePrisonnier(x+1, y, p);
-					if(checkPrisonniers(p)){
+					if(isPrisonniers()){
 						prisonnier += removePrisonniers();
 					}
 					
@@ -86,7 +98,7 @@ public class Plateau {
 				if(inter.getPierre().getCouleur()!=p.getCouleur()){
 					indexPrisonniers.clear();
 					groupePrisonnier(x, y+1, p);
-					if(checkPrisonniers(p)){
+					if(isPrisonniers()){
 						prisonnier += removePrisonniers();
 					}
 				}					
@@ -96,12 +108,9 @@ public class Plateau {
 				if(inter.getPierre().getCouleur()!=p.getCouleur()){
 					indexPrisonniers.clear();
 					groupePrisonnier(x-1, y, p);
-					if(checkPrisonniers(p)){
+					if(isPrisonniers()){
 						prisonnier += removePrisonniers();
 					}
-					
-					for(int j : indexPrisonniers) System.out.print(j+" ");
-					System.out.print("\n");
 				}					
 			}
 		}
@@ -164,7 +173,7 @@ public class Plateau {
 	}
 	
 	//Verifie que le groupe est prisonnié
-	private boolean checkPrisonniers(Pierre p){
+	private boolean isPrisonniers(){
 		for(int i : indexPrisonniers){
 			//haut
 			if(intersections.get(i).getY()-1>=0){
@@ -200,7 +209,7 @@ public class Plateau {
 		return taille;
 	}
 	
-	//calcul l'index de l'ArrayList par rapport aux coordonnées et à la taille du plateau
+	//Calcul l'index de l'ArrayList par rapport aux coordonnées et à la taille du plateau
 	private static int calculIndex(int x, int y, int taille){
 		return x+taille*y;
 	}
