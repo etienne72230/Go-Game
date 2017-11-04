@@ -7,6 +7,7 @@ public class Plateau {
 
 	private int taille;
 	private List<Intersection> intersections = new ArrayList<Intersection>();
+	private List<Integer> indexPrisonniers = new ArrayList<Integer>();
 	
 	public Plateau(int taille){
 		this.taille = taille;
@@ -24,6 +25,7 @@ public class Plateau {
 			if( inter.getX() == x && inter.getY() == y){
 				if(inter.getPierre()==null){
 					inter.setPierre(p);
+					this.updatePlateau(x, y, p);
 					return true;
 				}else{
 					return false;
@@ -55,9 +57,153 @@ public class Plateau {
 		return null;
 	}
 	
+	//Mise a jour du plateau retourne le nombre de pierre enprisonner
+	public int updatePlateau(int x, int y, Pierre p){
+		int prisonnier = 0;
+		for(Intersection inter : intersections){
+			//Pierre du haut
+			if(inter.getX() == x && inter.getY() == y-1){
+				if(inter.getPierre() !=null && inter.getPierre().getCouleur()!= p.getCouleur()){
+					indexPrisonniers.clear();
+					groupePrisonnier(x, y-1, p);
+					if(checkPrisonniers(p)){
+						prisonnier += removePrisonniers();
+					}
+					
+					for(int j : indexPrisonniers) System.out.print(j+" ");
+					System.out.print("\n");
+				}
+			}
+			//Pierre de droite
+			if(inter.getPierre() !=null && inter.getX() == x+1 && inter.getY() == y){
+				if(inter.getPierre().getCouleur()!=p.getCouleur()){
+					indexPrisonniers.clear();
+					groupePrisonnier(x+1, y, p);
+					if(checkPrisonniers(p)){
+						prisonnier += removePrisonniers();
+					}
+					
+					for(int j : indexPrisonniers) System.out.print(j+" ");
+					System.out.print("\n");
+				}				
+			}
+			//Pierre du bas
+			if(inter.getPierre() !=null && inter.getX() == x && inter.getY() == y+1){
+				if(inter.getPierre().getCouleur()!=p.getCouleur()){
+					indexPrisonniers.clear();
+					groupePrisonnier(x, y+1, p);
+					if(checkPrisonniers(p)){
+						prisonnier += removePrisonniers();
+					}
+					
+					for(int j : indexPrisonniers) System.out.print(j+" ");
+					System.out.print("\n");
+				}					
+			}
+			//Pierre de gauche
+			if(inter.getPierre() !=null && inter.getX() == x-1 && inter.getY() == y){
+				if(inter.getPierre().getCouleur()!=p.getCouleur()){
+					indexPrisonniers.clear();
+					groupePrisonnier(x-1, y, p);
+					if(checkPrisonniers(p)){
+						prisonnier += removePrisonniers();
+					}
+					
+					for(int j : indexPrisonniers) System.out.print(j+" ");
+					System.out.print("\n");
+				}					
+			}
+		}
+		return prisonnier;
+	}
+	
+	//Créer une liste des pierres de meme couleur qui se touche
+	//elle sont potentiellement prisonnière
+	private void groupePrisonnier(int x, int y, Pierre p){
+		for(int i=0; i<intersections.size(); i++){
+			
+			//Elle même
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y){
+				if(indexPrisonniers.indexOf(i)==-1){
+					indexPrisonniers.add(i);
+				}
+			}
+			
+			//Pierre du haut
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y-1){
+				if(intersections.get(i).getPierre()!= null && intersections.get(i).getPierre().getCouleur() != p.getCouleur()){
+					if(indexPrisonniers.indexOf(i)==-1){
+						indexPrisonniers.add(i);
+						groupePrisonnier(x, y-1, p);
+					}
+				}
+			}
+			
+			//Pierre de droite
+			if(intersections.get(i).getX() == x+1 && intersections.get(i).getY() == y){
+				if(intersections.get(i).getPierre()!= null && intersections.get(i).getPierre().getCouleur() != p.getCouleur()){
+					if(indexPrisonniers.indexOf(i)==-1){
+						indexPrisonniers.add(i);
+						groupePrisonnier(x+1, y, p);
+					}
+				}
+			}
+			
+			//Pierre du bas
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y+1){
+				if(intersections.get(i).getPierre()!= null && intersections.get(i).getPierre().getCouleur() != p.getCouleur()){
+					if(indexPrisonniers.indexOf(i)==-1){
+						indexPrisonniers.add(i);
+						groupePrisonnier(x, y+1, p);
+					}
+				}
+			}
+			
+			//Pierre de gauche
+			if(intersections.get(i).getX() == x-1 && intersections.get(i).getY() == y){
+				if(intersections.get(i).getPierre()!= null && intersections.get(i).getPierre().getCouleur() != p.getCouleur()){
+					if(indexPrisonniers.indexOf(i)==-1){
+						indexPrisonniers.add(i);
+						groupePrisonnier(x-1, y, p);
+					}
+				}
+			}
+			
+		}
+	}
+	
+	//Verifie que le groupe est prisonnié
+	private boolean checkPrisonniers(Pierre p){
+		for(int i : indexPrisonniers){
+			//haut
+			if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre()==null) return false;
+			//Droite
+			if(intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
+			//Bas
+			if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre()==null) return false;
+			//Gauche
+			if(intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
+		}
+		return true;
+	}
+	
+	//Supprime les pierres qui sont prisonnières
+	private int removePrisonniers(){
+		int nbPrisonnier= indexPrisonniers.size();
+		for(int i : indexPrisonniers){
+			intersections.get(i).setPierre(null);
+		}
+		return nbPrisonnier;
+	}
+	
 	//Retourne la taille du plateau
 	public int getTaille(){
 		return taille;
+	}
+	
+	//calcul l'index de l'ArrayList par rapport aux coordonnées et à la taille du plateau
+	private static int calculIndex(int x, int y, int taille){
+		return x+taille*y;
 	}
 	
 	public String toString(){
