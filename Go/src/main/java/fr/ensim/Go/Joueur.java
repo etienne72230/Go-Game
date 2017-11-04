@@ -5,10 +5,12 @@ public class Joueur {
 		private String pseudo;
 		private Pierre pierre;
 		private double score;
+		private boolean fin;
 		
 		public Joueur(String pseudo, Pierre pierre){
 			this.pseudo = pseudo;
 			this.pierre = pierre;
+			fin = false;
 			if(pierre.getCouleur()==CouleurPierre.Blanc){
 				score=6.5;
 			}else{
@@ -30,5 +32,13 @@ public class Joueur {
 		
 		public void addPoint(int p){
 			score+=p;
+		}
+		
+		public void setFin(boolean b){
+			fin = b;
+		}
+		
+		public boolean getFin(){
+			return fin;
 		}
 }

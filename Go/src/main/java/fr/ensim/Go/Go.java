@@ -30,23 +30,39 @@ public class Go {
 	
 	//Lancement du jeu
 	public void jouer(){
-		while(true){		
+		while(joueurs.get(0).getFin() == false || joueurs.get(1).getFin() == false){		
 			System.out.println(this);
 			jouerPierreConsole();
+		}
+		System.out.println("\t---Fin de partie---");
+		System.out.println(joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo());
+		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()){
+			System.out.println("Victoire de "+joueurs.get(0).getPseudo());
+		}else{
+			System.out.println("Victoire de "+joueurs.get(1).getPseudo());
 		}
 	}
 	
 	
 	//Ajoute une pierre au plateau et passe au tour de l'adversaire
 	private boolean jouerPierre(int x, int y){
-		int points = plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre());
-		if(points != -1){
-			joueurs.get(actualJoueur).addPoint(points);
+		if(x == -1 && y == -1){
+			joueurs.get(actualJoueur).setFin(true);
+			System.out.println(joueurs.get(actualJoueur).getPseudo()+" passe son tour");
 			actualJoueur=(actualJoueur+1)%2;
 			return true;
 		}else{
-			return false;
+			joueurs.get(actualJoueur).setFin(false);
+			int points = plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre());
+			if(points != -1){
+				joueurs.get(actualJoueur).addPoint(points);
+				actualJoueur=(actualJoueur+1)%2;
+				return true;
+			}else{
+				return false;
+			}
 		}
+			
 	}
 	
 	//Retourne le joueur a qui c'est le tour de jouer
