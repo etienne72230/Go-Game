@@ -4,7 +4,7 @@ public class Joueur {
 
 		private String pseudo;
 		private Pierre pierre;
-		double score;
+		private double score;
 		
 		public Joueur(String pseudo, Pierre pierre){
 			this.pseudo = pseudo;
@@ -26,5 +26,9 @@ public class Joueur {
 		
 		public double getScore(){
 			return score;
+		}
+		
+		public void addPoint(int p){
+			score+=p;
 		}
 }

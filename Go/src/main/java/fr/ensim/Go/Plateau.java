@@ -25,7 +25,6 @@ public class Plateau {
 			if( inter.getX() == x && inter.getY() == y){
 				if(inter.getPierre()==null){
 					inter.setPierre(p);
-					this.updatePlateau(x, y, p);
 					return true;
 				}else{
 					return false;
@@ -62,16 +61,13 @@ public class Plateau {
 		int prisonnier = 0;
 		for(Intersection inter : intersections){
 			//Pierre du haut
-			if(inter.getX() == x && inter.getY() == y-1){
-				if(inter.getPierre() !=null && inter.getPierre().getCouleur()!= p.getCouleur()){
+			if(inter.getPierre() !=null && inter.getX() == x && inter.getY() == y-1){
+				if(inter.getPierre().getCouleur()!= p.getCouleur()){
 					indexPrisonniers.clear();
 					groupePrisonnier(x, y-1, p);
 					if(checkPrisonniers(p)){
 						prisonnier += removePrisonniers();
 					}
-					
-					for(int j : indexPrisonniers) System.out.print(j+" ");
-					System.out.print("\n");
 				}
 			}
 			//Pierre de droite
@@ -83,8 +79,6 @@ public class Plateau {
 						prisonnier += removePrisonniers();
 					}
 					
-					for(int j : indexPrisonniers) System.out.print(j+" ");
-					System.out.print("\n");
 				}				
 			}
 			//Pierre du bas
@@ -95,9 +89,6 @@ public class Plateau {
 					if(checkPrisonniers(p)){
 						prisonnier += removePrisonniers();
 					}
-					
-					for(int j : indexPrisonniers) System.out.print(j+" ");
-					System.out.print("\n");
 				}					
 			}
 			//Pierre de gauche
@@ -176,14 +167,22 @@ public class Plateau {
 	private boolean checkPrisonniers(Pierre p){
 		for(int i : indexPrisonniers){
 			//haut
-			if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre()==null) return false;
+			if(intersections.get(i).getY()-1>=0){
+				if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre()==null) return false;
+			}
 			//Droite
-			if(intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
+			if(intersections.get(i).getX()+1<=taille-1){
+				if(intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
+			}
 			//Bas
-			if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre()==null) return false;
+			if(intersections.get(i).getY()+1<=taille-1){
+				if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre()==null) return false;
+			}
 			//Gauche
-			if(intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
-		}
+			if(intersections.get(i).getX()-1>=0){
+				if(intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre()==null) return false;
+			}
+		}	
 		return true;
 	}
 	

@@ -40,7 +40,7 @@ public class Go {
 	//Ajoute une pierre au plateau et passe au tour de l'adversaire
 	private boolean jouerPierre(int x, int y){
 		if(plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre())){
-			joueurs.get(actualJoueur).score+= plateau.updatePlateau(x, y, joueurs.get(actualJoueur).getPierre());
+			joueurs.get(actualJoueur).addPoint(plateau.updatePlateau(x, y, joueurs.get(actualJoueur).getPierre()));
 			actualJoueur=(actualJoueur+1)%2;
 			return true;
 		}else{
