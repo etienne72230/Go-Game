@@ -37,6 +37,68 @@ public class PlateauTest {
 		plateau = new Plateau(10);
 		assertEquals("Ajout pierre sur un plateau plus petit impossible", -1 ,plateau.addPierre(15, 11, pN));
 		
+		
+		//Prisonnier dans l'angle
+		plateau = new Plateau(9);
+		plateau.addPierre(0, 1, pN);
+		plateau.addPierre(0, 0, pB);
+		assertEquals("Pierre 0 0 prisonnière", 1, plateau.addPierre(1, 0, pN));
+		assertEquals("Pierre 0 0 supprimer", null, plateau.getPierre(0, 0));
+		
+		//Coup suicide impossible
+		assertEquals("Pierre Blanche 0 0 suicide impossible", -1, plateau.addPierre(0, 0, pB));
+		
+		
+		//Prisonnier dans chaque direction
+		//++N++
+		//+NBN+
+		//NB*BN
+		//+NBN+
+		//++N++
+		
+		plateau = new Plateau(9);
+		plateau.addPierre(0, 2, pN);
+		plateau.addPierre(1, 1, pN);
+		plateau.addPierre(1, 3, pN);
+		plateau.addPierre(2, 0, pN);
+		plateau.addPierre(2, 4, pN);
+		plateau.addPierre(3, 1, pN);
+		plateau.addPierre(3, 3, pN);
+		plateau.addPierre(4, 2, pN);
+		
+		plateau.addPierre(2, 1, pB);
+		plateau.addPierre(1, 2, pB);
+		plateau.addPierre(3, 2, pB);
+		plateau.addPierre(2, 3, pB);
+		assertEquals("Pierre 2 2 fait 4 prisonnier", 4, plateau.addPierre(2, 2, pN));
+		assertEquals("Pierre 2 1 supprimer", null, plateau.getPierre(2, 1));
+		assertEquals("Pierre 1 2 supprimer", null, plateau.getPierre(1, 2));
+		assertEquals("Pierre 3 2 supprimer", null, plateau.getPierre(3, 2));
+		assertEquals("Pierre 2 3 supprimer", null, plateau.getPierre(2, 3));
+		
+		//Groupe de prisonnier
+		//+NBBN
+		//+NBN
+		//NBB*
+		//+NBN
+		//++N
+		plateau = new Plateau(9);
+		plateau.addPierre(1, 0, pN);
+		plateau.addPierre(4, 0, pN);
+		plateau.addPierre(1, 1, pN);
+		plateau.addPierre(3, 1, pN);
+		plateau.addPierre(0, 2, pN);
+		plateau.addPierre(1, 3, pN);
+		plateau.addPierre(3, 3, pN);
+		plateau.addPierre(2, 4, pN);
+		
+		plateau.addPierre(2, 0, pB);
+		plateau.addPierre(3, 0, pB);
+		plateau.addPierre(2, 1, pB);
+		plateau.addPierre(1, 2, pB);
+		plateau.addPierre(2, 2, pB);
+		plateau.addPierre(2, 3, pB);
+		assertEquals("Pierre 2 2 fait 6 prisonnier", 6, plateau.addPierre(3, 2, pN));
 	}
 
 
