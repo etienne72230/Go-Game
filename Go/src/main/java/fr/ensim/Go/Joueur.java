@@ -6,11 +6,13 @@ public class Joueur {
 		private Pierre pierre;
 		private double score;
 		private boolean fin;
+		private int nbPrisonniers;
 		
 		public Joueur(String pseudo, Pierre pierre){
 			this.pseudo = pseudo;
 			this.pierre = pierre;
 			fin = false;
+			nbPrisonniers = 0;
 			if(pierre.getCouleur()==CouleurPierre.Blanc){
 				score=6.5;
 			}else{
@@ -22,6 +24,14 @@ public class Joueur {
 			return pseudo;
 		}
 		
+		public int getNbPrisonniers() {
+			return nbPrisonniers;
+		}
+
+		public void addPrisonniers(int nb) {
+			nbPrisonniers+=nb;
+		}
+
 		public Pierre getPierre(){
 			return pierre;
 		}

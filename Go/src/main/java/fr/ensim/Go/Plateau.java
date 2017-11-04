@@ -20,14 +20,14 @@ public class Plateau {
 	
 	//Ajout d'une pierre sur une intersection
 	public int addPierre(int x, int y, Pierre p){
-		int points=0;
+		int prisonniers=0;
 		for(Intersection inter : intersections){
 			if( inter.getX() == x && inter.getY() == y){
 				if(inter.getPierre()==null){
 					inter.setPierre(p);
-					points += updatePlateau(x, y, p);
+					prisonniers += updatePlateau(x, y, p);
 					//Si le joueur ne fait pas de point il ne faut pas qu'il soit fait prisonnier (coup suicidaire)
-					if(points==0){
+					if(prisonniers==0){
 						indexPrisonniers.clear();
 						if(p.getCouleur()==CouleurPierre.Blanc) groupePrisonnier(x, y, new Pierre(CouleurPierre.Noire));
 						if(p.getCouleur()==CouleurPierre.Noire) groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
@@ -37,7 +37,7 @@ public class Plateau {
 							return -1;
 						}
 					}
-				return points;
+				return prisonniers;
 				}
 			}
 		}
@@ -232,6 +232,10 @@ public class Plateau {
 		for(int i=0 ; i<taille*3 ; i++) print+="#";
 		print+="##";
 		return print;
+	}
+
+	public void calculScore(Joueur joueur1, Joueur joueur2) {
+		// TODO Auto-generated method stub
 	}
 	
 }

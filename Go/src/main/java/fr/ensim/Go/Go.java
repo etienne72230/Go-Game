@@ -34,6 +34,11 @@ public class Go {
 			System.out.println(this);
 			jouerPierreConsole();
 		}
+		System.out.println("\t---Suppression pierre morte---");
+		while(suppressionPierreMorteConsole()){}
+		
+		plateau.calculScore(joueurs.get(0), joueurs.get(1));
+		
 		System.out.println("\t---Fin de partie---");
 		System.out.println(joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo());
 		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()){
@@ -42,6 +47,7 @@ public class Go {
 			System.out.println("Victoire de "+joueurs.get(1).getPseudo());
 		}
 	}
+	
 	
 	
 	//Ajoute une pierre au plateau et passe au tour de l'adversaire
@@ -53,9 +59,9 @@ public class Go {
 			return true;
 		}else{
 			joueurs.get(actualJoueur).setFin(false);
-			int points = plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre());
-			if(points != -1){
-				joueurs.get(actualJoueur).addPoint(points);
+			int prisonniers = plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre());
+			if(prisonniers != -1){
+				joueurs.get(actualJoueur).addPrisonniers(prisonniers);
 				actualJoueur=(actualJoueur+1)%2;
 				return true;
 			}else{
@@ -63,11 +69,6 @@ public class Go {
 			}
 		}
 			
-	}
-	
-	//Retourne le joueur a qui c'est le tour de jouer
-	public Joueur getActualJoueur(){
-		return joueurs.get(actualJoueur);
 	}
 	
 	//Jouer une pierre depuis la console
@@ -79,6 +80,35 @@ public class Go {
 			coords = saisie.split(" ");
 		}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false || jouerPierre(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])) == false);
 	}
+	
+	//Supression des pierres mortes en accord entre les deux joueurs
+	private boolean suppressionPierreMorte(int x, int y){
+		if(x!=-1 && y!=-1){
+			plateau.removePierre(x, y);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	//Supression des pierres mortes en accord entre les deux joueurs depuis la console
+	private boolean suppressionPierreMorteConsole(){
+		System.out.println("Saisir coordonnées pierre morte(-1 -1 pour finir) : ");
+		String saisie ="";
+		String[] coords;
+		do{
+			saisie=lireString();
+			coords = saisie.split(" ");
+		}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false);
+		return suppressionPierreMorte(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+	}
+	
+	//Retourne le joueur a qui c'est le tour de jouer
+	public Joueur getActualJoueur(){
+		return joueurs.get(actualJoueur);
+	}
+	
+
 	
 	//Lire un string saisie par l'utilisateur dans la console
 	private static String lireString ()   
@@ -109,7 +139,7 @@ public class Go {
 	
 	public String toString(){
 		String print = "(";
-		print+=joueurs.get(0).getPierre()+")"+joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo()+"("+joueurs.get(1).getPierre()+")\n";
+		print+=joueurs.get(0).getPierre()+")"+joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getNbPrisonniers()+"\tVs\t"+joueurs.get(1).getNbPrisonniers()+" : "+joueurs.get(1).getPseudo()+"("+joueurs.get(1).getPierre()+")\n";
 		print+=plateau;
 		return print;
 	}
