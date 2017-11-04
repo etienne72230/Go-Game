@@ -235,7 +235,147 @@ public class Plateau {
 	}
 
 	public void calculScore(Joueur joueur1, Joueur joueur2) {
-		// TODO Auto-generated method stub
+		List<List<Integer>> listeGroupe = new ArrayList<List<Integer>>();
+		for(int i=0; i<intersections.size(); i++){
+			
+			//calcul des territoire
+			if(intersections.get(i).getPierre()==null){
+				Boolean dejaTraiter = false;
+				for(List<Integer> liste : listeGroupe){
+					//Nouveau groupe
+					if(liste.indexOf(i)!=-1){
+						dejaTraiter = true;
+						break;
+					}
+				}
+				if(dejaTraiter == false){
+					List<Integer> tmp = new ArrayList<Integer>();
+					formationGroupe(intersections.get(i).getX(), intersections.get(i).getY(), tmp);
+					listeGroupe.add(tmp);
+				}
+			}else{
+				//1 point par pierre sur le plateau
+				if(intersections.get(i).getPierre().getCouleur()== CouleurPierre.Noire) joueur1.addPoint(1);
+				if(intersections.get(i).getPierre().getCouleur()== CouleurPierre.Blanc) joueur2.addPoint(1);
+			}
+		}
+		//Regarder si les territoires sont controler par un joueur
+		for(List<Integer> liste : listeGroupe){
+			Pierre p = isTerritoire(liste);
+			//Territoire a personne
+			if(p != null){
+				//Territoire au joueur 1
+				if(p == joueur1.getPierre()){
+					joueur1.addPoint(liste.size());
+					for(int i : liste){intersections.get(i).setPierre(joueur1.getPierre());}
+					//Territoire au joueur 2
+				}else{
+					joueur2.addPoint(liste.size());
+					for(int i : liste){intersections.get(i).setPierre(joueur2.getPierre());}
+				}
+			}
+		}
+		
+	}
+	
+	//Création groupe de territoire vide
+	private void formationGroupe(int x, int y, List<Integer> liste){
+		
+		for(int i=0; i<intersections.size(); i++){
+			
+			//Elle même
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y){
+				if(liste.indexOf(i)==-1){
+					liste.add(i);
+				}
+			}
+			
+			//Pierre du haut
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y-1){
+				if(intersections.get(i).getPierre()== null){
+					if(liste.indexOf(i)==-1){
+						liste.add(i);
+						formationGroupe(x, y-1, liste);
+					}
+				}
+			}
+			
+			//Pierre de droite
+			if(intersections.get(i).getX() == x+1 && intersections.get(i).getY() == y){
+				if(intersections.get(i).getPierre()== null){
+					if(liste.indexOf(i)==-1){
+						liste.add(i);
+						formationGroupe(x+1, y, liste);
+					}
+				}
+			}
+			
+			//Pierre du bas
+			if(intersections.get(i).getX() == x && intersections.get(i).getY() == y+1){
+				if(intersections.get(i).getPierre()== null){
+					if(liste.indexOf(i)==-1){
+						liste.add(i);
+						formationGroupe(x, y+1, liste);
+					}
+				}
+			}
+			
+			//Pierre de gauche
+			if(intersections.get(i).getX() == x-1 && intersections.get(i).getY() == y){
+				if(intersections.get(i).getPierre() == null){
+					if(liste.indexOf(i)==-1){
+						liste.add(i);
+						formationGroupe(x-1, y, liste);
+					}
+				}
+			}
+			
+		}
+	}
+	
+	//Renvoi la pierre qui possède le territoire
+	//Renvoi null si le territoire n'est à personne
+	private Pierre isTerritoire(List<Integer> liste){
+		Pierre p = null;
+		for(int i : liste){
+			//haut
+			if(intersections.get(i).getY()-1>=0){
+				if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre()!=null ){
+					if(p == null) p = intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre();
+					if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()-1, taille)).getPierre()!=p){
+						return null;
+					}
+				}
+			}
+			//Droite
+			if(intersections.get(i).getX()+1<=taille-1){
+				if(intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre()!=null){
+					if(p == null) p = intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre();
+					if(intersections.get(calculIndex( intersections.get(i).getX()+1 ,intersections.get(i).getY(), taille)).getPierre()!=p){
+						return null;
+					}					
+				}
+			}
+			//Bas
+			if(intersections.get(i).getY()+1<=taille-1){
+				if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre()!=null){
+					if(p == null) p = intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre();
+					if(intersections.get(calculIndex( intersections.get(i).getX() ,intersections.get(i).getY()+1, taille)).getPierre()!=p){
+						return null;
+					}					
+				}
+			}
+			//Gauche
+			if(intersections.get(i).getX()-1>=0){
+				if(intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre()!=null){
+					if(p == null) p = intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre();
+					if(intersections.get(calculIndex( intersections.get(i).getX()-1 ,intersections.get(i).getY(), taille)).getPierre()!=p){
+						return null;
+					}					
+				}
+			}
+		}	
+		return p;
 	}
 	
 }

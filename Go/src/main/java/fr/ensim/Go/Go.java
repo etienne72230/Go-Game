@@ -35,7 +35,7 @@ public class Go {
 			jouerPierreConsole();
 		}
 		System.out.println("\t---Suppression pierre morte---");
-		while(suppressionPierreMorteConsole()){}
+		while(suppressionPierreMorteConsole()){System.out.println(this);}
 		
 		plateau.calculScore(joueurs.get(0), joueurs.get(1));
 		
@@ -46,6 +46,7 @@ public class Go {
 		}else{
 			System.out.println("Victoire de "+joueurs.get(1).getPseudo());
 		}
+		System.out.println(plateau);
 	}
 	
 	
