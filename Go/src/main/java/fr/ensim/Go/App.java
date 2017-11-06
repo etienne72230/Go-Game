@@ -8,7 +8,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Go go = new Go(5, "Etienne", "Lee Sedol");
+        Go go = new Go(19, 6.5, "Etienne", "Lee Sedol");
         go.jouer();
     }
 }

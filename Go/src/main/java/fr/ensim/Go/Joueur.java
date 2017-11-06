@@ -8,16 +8,12 @@ public class Joueur {
 		private boolean fin;
 		private int nbPrisonniers;
 		
-		public Joueur(String pseudo, Pierre pierre){
+		public Joueur(String pseudo, Pierre pierre, double score){
 			this.pseudo = pseudo;
 			this.pierre = pierre;
 			fin = false;
 			nbPrisonniers = 0;
-			if(pierre.getCouleur()==CouleurPierre.Blanc){
-				score=6.5;
-			}else{
-				score=0;
-			}
+			this.score = score;
 		}
 		
 		public String getPseudo(){

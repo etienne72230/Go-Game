@@ -12,19 +12,19 @@ public class Go {
 	private List<Joueur> joueurs = new ArrayList<Joueur>();
 	private int actualJoueur;
 	
-	public Go(int taille, String pseudo1, String pseudo2){
+	public Go(int taille, double komi, String pseudo1, String pseudo2){
 		
-		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire)));
+		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire), 0));
 		actualJoueur = 0;
-		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc)));
+		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc), komi));
 		plateau = new Plateau(taille);
 	}
 	
-	public Go(String pseudo1, String pseudo2){
+	public Go(String pseudo1, String pseudo2, double komi){
 		
-		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire)));
+		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire), 0));
 		actualJoueur = 0;
-		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc)));
+		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc), komi));
 		plateau = new Plateau(19);
 	}
 	

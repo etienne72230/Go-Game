@@ -70,18 +70,20 @@ public class PlateauTest {
 		plateau.addPierre(1, 2, pB);
 		plateau.addPierre(3, 2, pB);
 		plateau.addPierre(2, 3, pB);
+		//System.out.println(plateau);
 		assertEquals("Pierre 2 2 fait 4 prisonnier", 4, plateau.addPierre(2, 2, pN));
 		assertEquals("Pierre 2 1 supprimer", null, plateau.getPierre(2, 1));
 		assertEquals("Pierre 1 2 supprimer", null, plateau.getPierre(1, 2));
 		assertEquals("Pierre 3 2 supprimer", null, plateau.getPierre(3, 2));
 		assertEquals("Pierre 2 3 supprimer", null, plateau.getPierre(2, 3));
+		//System.out.println(plateau);
 		
 		//Groupe de prisonnier
-		//+NBBN
+		//NBBN
 		//+NBN
 		//NBB*
 		//+NBN
-		//++N
+		//++N+
 		plateau = new Plateau(9);
 		plateau.addPierre(1, 0, pN);
 		plateau.addPierre(4, 0, pN);
@@ -98,7 +100,40 @@ public class PlateauTest {
 		plateau.addPierre(1, 2, pB);
 		plateau.addPierre(2, 2, pB);
 		plateau.addPierre(2, 3, pB);
+		//System.out.println(plateau);
 		assertEquals("Pierre 2 2 fait 6 prisonnier", 6, plateau.addPierre(3, 2, pN));
+		//System.out.println(plateau);
+		
+		//Calcul du score final
+		//+N+N++
+		//+++N+B
+		//NNN+N+
+		//BN++N+
+		//++B+++
+		plateau = new Plateau(6);
+		plateau.addPierre(1, 0, pN);
+		plateau.addPierre(3, 0, pN);
+		plateau.addPierre(5, 0, pN);
+		plateau.addPierre(3, 1, pN);
+		plateau.addPierre(5, 1, pB);
+		plateau.addPierre(0, 2, pN);
+		plateau.addPierre(1, 2, pN);
+		plateau.addPierre(2, 2, pN);
+		plateau.addPierre(4, 2, pN);
+		plateau.addPierre(0, 3, pB);
+		plateau.addPierre(1, 3, pN);
+		plateau.addPierre(4, 3, pN);
+		plateau.addPierre(1, 4, pB);
+		plateau.addPierre(2, 4, pN);
+		plateau.addPierre(3, 4, pN);
+		plateau.addPierre(2, 5, pB);
+		Joueur j1= new Joueur("j1", pN, 0);
+		Joueur j2= new Joueur("j2", pB, 0);
+		//System.out.println(plateau);
+		plateau.calculScore(j1, j2);
+		assertEquals("Calcul score joueurs 1 ", 20, j1.getScore(),0);
+		assertEquals("Calcul score joueurs 2 ", 7, j2.getScore(),0);
+		//System.out.println(plateau);
 	}
 
 
