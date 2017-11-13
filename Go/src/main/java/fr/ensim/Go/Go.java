@@ -28,7 +28,7 @@ public class Go {
 		plateau = new Plateau(19);
 	}
 	
-	//Lancement du jeu
+	
 	public void jouer(){
 		while(joueurs.get(0).getFin() == false || joueurs.get(1).getFin() == false){		
 			System.out.println(this);

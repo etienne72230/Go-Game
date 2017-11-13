@@ -18,6 +18,10 @@ public class Plateau {
 		}
 	}
 	
+	public List<Intersection> getIntersections(){
+		return intersections;
+	}
+	
 	//Ajout d'une pierre sur une intersection
 	public int addPierre(int x, int y, Pierre p){
 		int prisonniers=0;
@@ -58,6 +62,7 @@ public class Plateau {
 	//Retourne la pierre sur l'intersection voulue s'il y en a une
 	public Pierre getPierre(int x, int y){
 		
+		//return intersections.get(calculIndex(x, y, taille)).getPierre();
 		for(Intersection inter : intersections){
 			if( inter.getX() == x && inter.getY() == y){
 				return inter.getPierre();
