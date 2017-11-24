@@ -20,11 +20,11 @@ public class App
  
     	
     	//Version console
-        go = new Go(19, 6.5, "Etienne", "Lee Sedol");
-        go.jouer();
+        /*go = new Go(19, 6.5, "Etienne", "Lee Sedol");
+        go.jouer();*/
     	
     	//Version graphique
-    	//new GameFrame();
+    	new GameFrame();
     }
     
 	
