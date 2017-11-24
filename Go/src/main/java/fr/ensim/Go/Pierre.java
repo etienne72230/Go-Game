@@ -1,6 +1,12 @@
 package fr.ensim.Go;
 
-public class Pierre {
+import java.io.Serializable;
+
+public class Pierre  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CouleurPierre couleur;
 	
 	public Pierre(CouleurPierre c){
