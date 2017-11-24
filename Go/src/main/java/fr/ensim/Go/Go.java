@@ -3,11 +3,16 @@ package fr.ensim.Go;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Go {
+public class Go implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Plateau plateau;
 	private List<Joueur> joueurs = new ArrayList<Joueur>();
 	private int actualJoueur;
@@ -78,6 +83,14 @@ public class Go {
 		String[] coords;
 		do{
 			saisie=lireString();
+			//On sauvegarde la partie
+			if(saisie.equals("S")) {
+				App.sauvegarde();
+			}
+			//On charche la partie
+			if(saisie.equals("L")) {
+				App.chargement();
+			}
 			coords = saisie.split(" ");
 		}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false || jouerPierre(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])) == false);
 	}
@@ -144,5 +157,6 @@ public class Go {
 		print+=plateau;
 		return print;
 	}
+	
 
 }

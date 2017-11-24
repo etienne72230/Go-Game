@@ -1,10 +1,15 @@
 package fr.ensim.Go;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plateau {
+public class Plateau  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int taille;
 	private List<Intersection> intersections = new ArrayList<Intersection>();
 	private List<Integer> indexPrisonniers = new ArrayList<Integer>();
