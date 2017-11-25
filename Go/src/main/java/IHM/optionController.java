@@ -1,6 +1,7 @@
 package IHM;
 
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -21,20 +22,19 @@ public class optionController {
 	@FXML
 	private ComboBox<String> taille_cb;
 	
-	private GoController goController;
+	private Main main;
 	
 	public void initialize() {
-		taille_cb.getItems().addAll("9X9", "13X13", "19X19");
+		taille_cb.getItems().addAll("9x9", "13x13", "19x19");
 		commencer_btn.setOnMouseClicked(this::commencer);
     }
 	
-	private void setController(GoController gc) {
-		goController=gc;
+	public void setApp(Main main) {
+		this.main = main;
 	}
 	
 	private void commencer(MouseEvent event) {
-		goController.initGo();
-		//TODO à finir
+		main.initGo(taille_cb.getValue(), Double.valueOf(komi_tf.getText()), joueur1_tf.getText(), joueur2_tf.getText());
 	}
 
 }

@@ -57,7 +57,7 @@ public class Go implements Serializable{
 	
 	
 	//Ajoute une pierre au plateau et passe au tour de l'adversaire
-	private boolean jouerPierre(int x, int y){
+	public boolean jouerPierre(int x, int y){
 		if(x == -1 && y == -1){
 			joueurs.get(actualJoueur).setFin(true);
 			System.out.println(joueurs.get(actualJoueur).getPseudo()+" passe son tour");
@@ -96,7 +96,7 @@ public class Go implements Serializable{
 	}
 	
 	//Supression des pierres mortes en accord entre les deux joueurs
-	private boolean suppressionPierreMorte(int x, int y){
+	public boolean suppressionPierreMorte(int x, int y){
 		if(x!=-1 && y!=-1){
 			plateau.removePierre(x, y);
 			return true;
@@ -156,6 +156,14 @@ public class Go implements Serializable{
 		print+=joueurs.get(0).getPierre()+")"+joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getNbPrisonniers()+"\tVs\t"+joueurs.get(1).getNbPrisonniers()+" : "+joueurs.get(1).getPseudo()+"("+joueurs.get(1).getPierre()+")\n";
 		print+=plateau;
 		return print;
+	}
+	
+	public Plateau getPlateau() {
+		return plateau;
+	}
+	
+	public List<Joueur> getJoueurs(){
+		return joueurs;
 	}
 	
 
