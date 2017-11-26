@@ -35,26 +35,39 @@ public class Go implements Serializable{
 	
 	
 	public void jouer(){
-		while(joueurs.get(0).getFin() == false || joueurs.get(1).getFin() == false){		
+		while(partieFini() == false){		
 			System.out.println(this);
 			jouerPierreConsole();
 		}
 		System.out.println("\t---Suppression pierre morte---");
 		while(suppressionPierreMorteConsole()){System.out.println(this);}
 		
-		plateau.calculScore(joueurs.get(0), joueurs.get(1));
+		calculerScore();
 		
 		System.out.println("\t---Fin de partie---");
 		System.out.println(joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo());
-		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()){
-			System.out.println("Victoire de "+joueurs.get(0).getPseudo());
+		
+		if(getGagnant()!=null) {
+			System.out.println("Victoire de "+getGagnant().getPseudo());
 		}else{
-			System.out.println("Victoire de "+joueurs.get(1).getPseudo());
+			System.out.println("Match nul");
 		}
 		System.out.println(plateau);
 	}
 	
+	public void calculerScore() {
+		plateau.calculScore(joueurs.get(0), joueurs.get(1));
+	}
 	
+	public String displayScore() {
+		return joueurs.get(0).getPseudo()+" "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" "+joueurs.get(1).getPseudo();
+	}
+	
+	public Joueur getGagnant() {
+		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()) return joueurs.get(0);
+		if(joueurs.get(0).getScore()< joueurs.get(1).getScore()) return joueurs.get(1);
+		return null;
+	}
 	
 	//Ajoute une pierre au plateau et passe au tour de l'adversaire
 	public boolean jouerPierre(int x, int y){
@@ -156,6 +169,10 @@ public class Go implements Serializable{
 		print+=joueurs.get(0).getPierre()+")"+joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getNbPrisonniers()+"\tVs\t"+joueurs.get(1).getNbPrisonniers()+" : "+joueurs.get(1).getPseudo()+"("+joueurs.get(1).getPierre()+")\n";
 		print+=plateau;
 		return print;
+	}
+	
+	public boolean partieFini() {
+		return joueurs.get(0).getFin() == true && joueurs.get(1).getFin() == true;
 	}
 	
 	public Plateau getPlateau() {

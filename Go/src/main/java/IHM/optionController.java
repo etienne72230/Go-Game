@@ -34,6 +34,9 @@ public class optionController {
 	}
 	
 	private void commencer(MouseEvent event) {
+		if(taille_cb.getValue()==null) taille_cb.setValue("9x9");
+		if(joueur1_tf.getText().equals("")) joueur1_tf.setText("Joueur1");
+		if(joueur2_tf.getText().equals("")) joueur2_tf.setText("Joueur2");
 		main.initGo(taille_cb.getValue(), Double.valueOf(komi_tf.getText()), joueur1_tf.getText(), joueur2_tf.getText());
 	}
 
