@@ -60,9 +60,13 @@ public class GoController {
 	private ImageView pierreFantome_img;
 	private ImageView croix_img;
 	
-	public void LauchGame(Go go) {
-		partieFini = false;
+	private Main main;
+	public void LauchGame(Go go, Main main) {
+		
 		this.go = go;
+		this.main = main;
+		
+		partieFini = false;
 		
 		pierreFantome_img = new ImageView(new Image(getClass().getResource("/pierre_noire.png").toString()));
 		pierreFantome_img.setOpacity(0.75);
@@ -70,19 +74,29 @@ public class GoController {
 		
 		croix_img = new ImageView(new Image(getClass().getResource("/croix.png").toString()));
 		croix_img.setVisible(false);
-		
 		plateau_img.setImage(new Image(getClass().getResource("/goban_"+go.getPlateau().getTaille()+".png").toString()));
 		score_lbl.setText(go.getJoueurs().get(0).getPseudo()+"     Vs     "+go.getJoueurs().get(1).getPseudo());
 		bolBlanc_img.setVisible(false);
 		j2Passe_btn.setDisable(true);
 		grid_pane.setOnMouseMoved(this::mouseMoved);
 		grid_pane.setOnMouseClicked(this::mouseClicked);
+		nouvellePartie_btn.setOnAction(this::nouvellePartie);
 		j1Passe_btn.setOnAction(this::passeClicked);
 		j2Passe_btn.setOnAction(this::passeClicked);
 		
-		plateauX = (int)(plateau_img.getLayoutX()-(plateau_img.getImage().getWidth()/2));
-		plateauY = (int)plateau_img.getLayoutY();
-		
+		plateauY = 120;
+		switch(go.getPlateau().getTaille()) {
+		case 9: plateauX = 191; break;
+		case 13: plateauX = 184; break;
+		case 19: plateauX = 187; break;
+		}
+		/*plateauX = (int)(plateau_img.getLayoutX()-(plateau_img.getImage().getWidth()/2));
+		plateauY = (int)plateau_img.getLayoutY();*/
+		displayUpdate();
+	}
+	
+	private void nouvellePartie(ActionEvent event) {
+		main.nouvellePartie();
 	}
 	
 	private void mouseMoved(MouseEvent event) {

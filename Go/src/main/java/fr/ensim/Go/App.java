@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import IHM.GameFrame;
-
 /**
  * Hello world!
  *
@@ -20,11 +18,8 @@ public class App
  
     	
     	//Version console
-        /*go = new Go(19, 6.5, "Etienne", "Lee Sedol");
-        go.jouer();*/
-    	
-    	//Version graphique
-    	new GameFrame();
+        go = new Go(19, 6.5, "Etienne", "Lee Sedol");
+        go.jouer();
     }
     
 	

@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,8 +37,11 @@ public class Main extends Application {
 	        stageGo.setScene(sceneGo);
 	        stageOption = new Stage();
 	        stageOption.setScene(sceneOption);
-	        stageGo.setResizable(false);
 	        stageOption.setResizable(false);
+	        stageOption.setTitle("Nouvelle partie");
+	        stageGo.setResizable(false);
+	        stageGo.setTitle("Jeu de Go");
+	        stageOption.initModality(Modality.APPLICATION_MODAL);
 	        stageGo.show();
 	        stageOption.show();
 		} catch (IOException e) {
@@ -49,19 +53,38 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	public void nouvellePartie() {
+		FXMLLoader loaderOption = new FXMLLoader(getClass().getResource("option.fxml"));
+		Scene sceneOption;
+		try {
+			sceneOption = new Scene((Parent) loaderOption.load());
+			controllerOption = loaderOption.<optionController>getController();
+			controllerOption.setApp(this);
+			stageOption = new Stage();
+	        stageOption.setScene(sceneOption);
+	        stageOption.setResizable(false);
+	        stageOption.setTitle("Nouvelle partie");
+	        stageOption.initModality(Modality.APPLICATION_MODAL);
+			stageOption.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public void initGo(String taille_str, Double komi, String j1, String j2) {
 		stageOption.close();
 		int taille;
 		switch (taille_str){
-			case "9x9": taille = 9;stageGo.setMinWidth(790); stageGo.setMinHeight(580); break;
-			case "13x13": taille = 13;stageGo.setMinWidth(950); stageGo.setMinHeight(760); break;
-			case "19x19": taille =  19;stageGo.setMinWidth(1220); stageGo.setMinHeight(1000); break;
-			default : taille = 9;stageGo.setMinWidth(790); stageGo.setMinHeight(550); break;
+			case "9x9": taille = 9;stageGo.setWidth(790); stageGo.setHeight(580); break;
+			case "13x13": taille = 13;stageGo.setWidth(950); stageGo.setHeight(760); break;
+			case "19x19": taille =  19;stageGo.setWidth(1220); stageGo.setHeight(1000); break;
+			default : taille = 9;stageGo.setWidth(790); stageGo.setHeight(550); break;
 		}
 		stageGo.centerOnScreen();
 		go = new Go(taille, komi, j1, j2);
-		controllerGo.LauchGame(go);
+		controllerGo.LauchGame(go, this);
 	}
 
 }
