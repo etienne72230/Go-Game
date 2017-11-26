@@ -45,7 +45,7 @@ public class Go implements Serializable{
 		calculerScore();
 		
 		System.out.println("\t---Fin de partie---");
-		System.out.println(joueurs.get(0).getPseudo()+" : "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" : "+joueurs.get(1).getPseudo());
+		System.out.println(displayScore());
 		
 		if(getGagnant()!=null) {
 			System.out.println("Victoire de "+getGagnant().getPseudo());
@@ -60,7 +60,7 @@ public class Go implements Serializable{
 	}
 	
 	public String displayScore() {
-		return joueurs.get(0).getPseudo()+" "+joueurs.get(0).getScore()+"\tVs\t"+joueurs.get(1).getScore()+" "+joueurs.get(1).getPseudo();
+		return joueurs.get(0).getPseudo()+"\t["+joueurs.get(0).getScore()+"-"+joueurs.get(1).getScore()+"]\t"+joueurs.get(1).getPseudo();
 	}
 	
 	public Joueur getGagnant() {

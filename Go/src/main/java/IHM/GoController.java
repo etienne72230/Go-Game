@@ -81,8 +81,14 @@ public class GoController {
 		grid_pane.setOnMouseMoved(this::mouseMoved);
 		grid_pane.setOnMouseClicked(this::mouseClicked);
 		nouvellePartie_btn.setOnAction(this::nouvellePartie);
+		
 		j1Passe_btn.setOnAction(this::passeClicked);
 		j2Passe_btn.setOnAction(this::passeClicked);
+		j1Passe_btn.setText("Passer");
+		j2Passe_btn.setText("Passer");
+		j1Passe_btn.setVisible(true);
+		j2Passe_btn.setVisible(true);
+		message_lbl.setText("");
 		
 		plateauY = 120;
 		switch(go.getPlateau().getTaille()) {
