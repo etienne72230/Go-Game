@@ -18,6 +18,12 @@ public class Intersection  implements Serializable{
 		pierre = null;
 	}
 	
+	public Intersection(int x, int y, Pierre p){
+		this.x = x;
+		this.y = y;
+		pierre = p;
+	}
+	
 	public int getX(){
 		return x;
 	}

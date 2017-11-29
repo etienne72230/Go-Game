@@ -41,7 +41,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <TextField fx:id="komi_tf" alignment="CENTER" promptText="0" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BASELINE" />
+      <TextField fx:id="komi_tf" alignment="CENTER" promptText="0" text="0.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BASELINE" />
       <ComboBox fx:id="taille_cb" prefWidth="150.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BASELINE" />
       <Label text="Vs" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>

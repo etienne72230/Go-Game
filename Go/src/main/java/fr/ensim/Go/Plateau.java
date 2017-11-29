@@ -54,14 +54,15 @@ public class Plateau  implements Serializable{
 	}
 	
 	//Suppression d'une pierre sur une intersection
-	public boolean removePierre(int x, int y){
+	public Pierre removePierre(int x, int y){
 		for(Intersection inter : intersections){
-			if( inter.getX() == x && inter.getY() == y){
+			if( inter.getX() == x && inter.getY() == y && inter.getPierre()!= null){
+				Pierre p = inter.getPierre();
 				inter.setPierre(null);
-				return true;
+				return p;
 			}
 		}
-		return false;		
+		return null;		
 	}
 	
 	//Retourne la pierre sur l'intersection voulue s'il y en a une

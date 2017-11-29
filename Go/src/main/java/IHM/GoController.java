@@ -1,8 +1,6 @@
 package IHM;
 
-import java.io.File;
-
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 import fr.ensim.Go.CouleurPierre;
 import fr.ensim.Go.Go;
@@ -10,8 +8,6 @@ import fr.ensim.Go.Intersection;
 import fr.ensim.Go.Plateau;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.MenuItem;
@@ -19,7 +15,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -60,6 +55,9 @@ public class GoController {
 	private ImageView pierreFantome_img;
 	private ImageView croix_img;
 	
+	private Image pierreNoire_img;
+	private Image pierreBlanche_img;
+	
 	private Main main;
 	public void LauchGame(Go go, Main main) {
 		
@@ -68,7 +66,10 @@ public class GoController {
 		
 		partieFini = false;
 		
-		pierreFantome_img = new ImageView(new Image(getClass().getResource("/pierre_noire.png").toString()));
+		pierreNoire_img = new Image(getClass().getResource("/pierre_noire.png").toString());
+		pierreBlanche_img = new Image(getClass().getResource("/pierre_blanche.png").toString());
+		
+		pierreFantome_img = new ImageView(pierreNoire_img);
 		pierreFantome_img.setOpacity(0.75);
 		pierre_pane.getChildren().add(pierreFantome_img);
 		
@@ -112,9 +113,9 @@ public class GoController {
 			pierreFantome_img.setLayoutX(getDispX(getGridX((int)event.getX())));
 			pierreFantome_img.setLayoutY(getDispY(getGridY((int)event.getY())));
 			if(go.getActualJoueur().getPierre().getCouleur() == CouleurPierre.Noire) {
-				pierreFantome_img.setImage(new Image(getClass().getResource("/pierre_noire.png").toString()));
+				pierreFantome_img.setImage(pierreNoire_img);
 			}else {
-				pierreFantome_img.setImage(new Image(getClass().getResource("/pierre_blanche.png").toString()));
+				pierreFantome_img.setImage(pierreBlanche_img);
 			}
 		}else {
 			croix_img.setLayoutX(getDispX(getGridX((int)event.getX())));
@@ -203,7 +204,6 @@ public class GoController {
 			bolNoire_img.setVisible(false);
 			bolBlanc_img.setVisible(true);
 		}
-		drawPierre();
 		
 		//Fin de partie, suppression des pierres mortes
 		if(go.partieFini()) {
@@ -220,6 +220,7 @@ public class GoController {
 			bolBlanc_img.setVisible(false);
 			bolNoire_img.setVisible(false);
 		}
+		drawPierre();
 	}
 	
 	private void drawPierre() {
@@ -230,18 +231,37 @@ public class GoController {
 			if(i.getPierre()!=null){
 				ImageView pierre_img;
 				if(i.getPierre().getCouleur() == CouleurPierre.Blanc){
-					pierre_img = new ImageView(new Image(getClass().getResource("/pierre_blanche.png").toString()));
+					pierre_img = new ImageView(pierreBlanche_img);
 					pierre_img.setLayoutX(getDispX(i.getX()));
 					pierre_img.setLayoutY(getDispY(i.getY()));
 					pierre_pane.getChildren().add(pierre_img);
 				}else{
-					pierre_img = new ImageView(new Image(getClass().getResource("/pierre_noire.png").toString()));
+					pierre_img = new ImageView(pierreNoire_img);
 					pierre_img.setLayoutX(getDispX(i.getX()));
 					pierre_img.setLayoutY(getDispY(i.getY()));
 					pierre_pane.getChildren().add(pierre_img);
 				}
 			}
 		}
-		pierre_pane.getChildren().add(croix_img);
+		if(partieFini) {
+			for(Intersection i : go.getPierreSupprime()) {
+				ImageView pierreSupprime_img;
+				if(i.getPierre().getCouleur() == CouleurPierre.Blanc){
+					pierreSupprime_img = new ImageView(pierreBlanche_img);
+					pierreSupprime_img.setLayoutX(getDispX(i.getX()));
+					pierreSupprime_img.setLayoutY(getDispY(i.getY()));
+					pierreSupprime_img.setOpacity(0.75);
+					pierre_pane.getChildren().add(pierreSupprime_img);
+				}else{
+					pierreSupprime_img = new ImageView(pierreNoire_img);
+					pierreSupprime_img.setLayoutX(getDispX(i.getX()));
+					pierreSupprime_img.setLayoutY(getDispY(i.getY()));
+					pierreSupprime_img.setOpacity(0.75);
+					pierre_pane.getChildren().add(pierreSupprime_img);
+				}
+			}
+			pierre_pane.getChildren().add(croix_img);
+		}
+		
 	}
 }

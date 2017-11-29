@@ -17,6 +17,8 @@ public class Go implements Serializable{
 	private List<Joueur> joueurs = new ArrayList<Joueur>();
 	private int actualJoueur;
 	
+	private ArrayList<Intersection> pierreSupprime = new ArrayList<Intersection>();
+	
 	public Go(int taille, double komi, String pseudo1, String pseudo2){
 		
 		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire), 0));
@@ -100,7 +102,7 @@ public class Go implements Serializable{
 			if(saisie.equals("S")) {
 				App.sauvegarde();
 			}
-			//On charche la partie
+			//On charge la partie
 			if(saisie.equals("L")) {
 				App.chargement();
 			}
@@ -110,13 +112,31 @@ public class Go implements Serializable{
 	
 	//Supression des pierres mortes en accord entre les deux joueurs
 	public boolean suppressionPierreMorte(int x, int y){
-		if(x!=-1 && y!=-1){
-			plateau.removePierre(x, y);
+		Pierre p = plateau.removePierre(x, y);
+		if(p==null) {
+			//Recherche dans les pierres déjà supprimé
+			for(Intersection inter : pierreSupprime) {
+				if(inter.getX()==x && inter.getY()==y){
+					//On remet la pierre sur le plateau
+					pierreSupprime.remove(inter);
+					plateau.addPierre(x, y, inter.getPierre());
+					return false;
+				}
+			}
+			return false;
+		}else {
+			pierreSupprime.add(new Intersection(x, y, p));
 			return true;
 		}
-		return false;
 	}
 	
+	public void clearPierreSupprime() {
+		pierreSupprime.clear();
+	}
+	
+	public ArrayList<Intersection> getPierreSupprime(){
+		return pierreSupprime;
+	}
 	
 	//Supression des pierres mortes en accord entre les deux joueurs depuis la console
 	private boolean suppressionPierreMorteConsole(){
@@ -127,7 +147,12 @@ public class Go implements Serializable{
 			saisie=lireString();
 			coords = saisie.split(" ");
 		}while(coords.length!=2 || tryParseInt(coords[0]) == false || tryParseInt(coords[1]) == false);
-		return suppressionPierreMorte(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+		if(Integer.parseInt(coords[0])==-1 && Integer.parseInt(coords[1]) == -1) {
+			return false;
+		}else {
+			suppressionPierreMorte(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+			return true;
+		}
 	}
 	
 	//Retourne le joueur a qui c'est le tour de jouer
