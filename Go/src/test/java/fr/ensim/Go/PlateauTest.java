@@ -30,10 +30,10 @@ public class PlateauTest {
 		assertEquals("Ajout hors limite impossible", -1, plateau.addPierre(19, 19, pB));
 		
 		
-		assertEquals("Suppression pierre", true, plateau.removePierre(15, 11));
+		assertEquals("Suppression pierre", pN, plateau.removePierre(15, 11));
 		assertEquals("Pierre bien supprimé", null, plateau.getPierre(15, 11));
-		assertEquals("Suppression hors limite impossible", false, plateau.removePierre(20, 19));
-		assertEquals("Suppression pierre qui n'existe pas impossible", false, plateau.removePierre(15, 11));
+		assertEquals("Suppression hors limite impossible", null, plateau.removePierre(20, 19));
+		assertEquals("Suppression pierre qui n'existe pas impossible", null, plateau.removePierre(15, 11));
 		
 		plateau = new Plateau(10);
 		assertEquals("Ajout pierre sur un plateau plus petit impossible", -1 ,plateau.addPierre(15, 11, pN));
