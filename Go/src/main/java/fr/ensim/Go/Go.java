@@ -57,14 +57,17 @@ public class Go implements Serializable{
 		System.out.println(plateau);
 	}
 	
+	//Calcul le score des deux joueurs
 	public void calculerScore() {
 		plateau.calculScore(joueurs.get(0), joueurs.get(1));
 	}
 	
+	//Affichage des scores
 	public String displayScore() {
 		return joueurs.get(0).getPseudo()+"\t["+joueurs.get(0).getScore()+"-"+joueurs.get(1).getScore()+"]\t"+joueurs.get(1).getPseudo();
 	}
 	
+	//Retourne le joueur gagnant
 	public Joueur getGagnant() {
 		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()) return joueurs.get(0);
 		if(joueurs.get(0).getScore()< joueurs.get(1).getScore()) return joueurs.get(1);
@@ -125,13 +128,10 @@ public class Go implements Serializable{
 			}
 			return false;
 		}else {
+			//Suppresion de la pierre
 			pierreSupprime.add(new Intersection(x, y, p));
 			return true;
 		}
-	}
-	
-	public void clearPierreSupprime() {
-		pierreSupprime.clear();
 	}
 	
 	public ArrayList<Intersection> getPierreSupprime(){
@@ -155,12 +155,21 @@ public class Go implements Serializable{
 		}
 	}
 	
-	//Retourne le joueur a qui c'est le tour de jouer
+	//Annuler la suppression des pierres morte, la partie continue
+	public void annulerFin() {
+		for(Joueur j : joueurs) {
+			j.setFin(false);
+		}
+		for(Intersection inter : pierreSupprime) {
+			plateau.addPierre(inter.getX(), inter.getY(), inter.getPierre());
+		}
+		pierreSupprime.clear();
+	}
+	
+	//Retourne le joueur à qui c'est le tour de jouer
 	public Joueur getActualJoueur(){
 		return joueurs.get(actualJoueur);
 	}
-	
-
 	
 	//Lire un string saisie par l'utilisateur dans la console
 	private static String lireString ()   

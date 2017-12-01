@@ -1,7 +1,5 @@
 package IHM;
 
-import java.util.ArrayList;
-
 import fr.ensim.Go.CouleurPierre;
 import fr.ensim.Go.Go;
 import fr.ensim.Go.Intersection;
@@ -47,6 +45,8 @@ public class GoController {
 	private Pane pierre_pane;
 	@FXML
 	private Label message_lbl;
+	@FXML
+	private Button annuler_btn;
 	
 	public  Go go;
 	private int plateauX;
@@ -82,13 +82,14 @@ public class GoController {
 		grid_pane.setOnMouseMoved(this::mouseMoved);
 		grid_pane.setOnMouseClicked(this::mouseClicked);
 		nouvellePartie_btn.setOnAction(this::nouvellePartie);
+		annuler_btn.setOnAction(this::annulerFin);
 		
 		j1Passe_btn.setOnAction(this::passeClicked);
 		j2Passe_btn.setOnAction(this::passeClicked);
-		j1Passe_btn.setText("Passer");
-		j2Passe_btn.setText("Passer");
 		j1Passe_btn.setVisible(true);
 		j2Passe_btn.setVisible(true);
+		j1Passe_btn.setText("Passer");
+		j2Passe_btn.setText("Passer");
 		message_lbl.setText("");
 		
 		plateauY = 120;
@@ -108,7 +109,6 @@ public class GoController {
 	
 	private void mouseMoved(MouseEvent event) {
 		//System.out.println("X : "+getGridX((int)event.getX())+" Y : "+getGridY((int)event.getY()));
-
 		if(partieFini == false) {
 			pierreFantome_img.setLayoutX(getDispX(getGridX((int)event.getX())));
 			pierreFantome_img.setLayoutY(getDispY(getGridY((int)event.getY())));
@@ -124,18 +124,20 @@ public class GoController {
 	}
 	
 	private void mouseClicked(MouseEvent event) {
-		if(partieFini == false) {
-			if(go.jouerPierre(getGridX((int)event.getX()), getGridY((int)event.getY()))) {
-				message_lbl.setText("");
+		if(event.getTarget()==plateau_img) {
+			if(partieFini == false) {
+				if(go.jouerPierre(getGridX((int)event.getX()), getGridY((int)event.getY()))) {
+					message_lbl.setText("");
+				}else {
+					message_lbl.setText("Coup Impossible");
+				}
 			}else {
-				message_lbl.setText("Coup Impossible");
+				go.suppressionPierreMorte(getGridX((int)event.getX()), getGridY((int)event.getY()));
+				j1Passe_btn.setDisable(false);
+				j2Passe_btn.setDisable(false);
 			}
-		}else {
-			go.suppressionPierreMorte(getGridX((int)event.getX()), getGridY((int)event.getY()));
-			j1Passe_btn.setDisable(false);
-			j2Passe_btn.setDisable(false);
+			displayUpdate();
 		}
-		displayUpdate();
 	}
 	
 	//Le joueur passe son tour
@@ -144,6 +146,21 @@ public class GoController {
 		displayUpdate();
 	}
 	
+	//Annulation du mode suppression de pierre, la partie continue
+	private void annulerFin(ActionEvent event) {
+		partieFini = false;
+		go.annulerFin();
+		pierreFantome_img.setVisible(true);
+		croix_img.setVisible(false);
+		j1Passe_btn.setText("Passer");
+		j2Passe_btn.setText("Passer");
+		j1Passe_btn.setOnAction(this::passeClicked);
+		j2Passe_btn.setOnAction(this::passeClicked);
+		annuler_btn.setVisible(false);
+		displayUpdate();
+	}
+	
+	//Le joueur valide les pierres supprimées
 	private void validerClicked(ActionEvent event) {
 		if(event.getSource().equals(j1Passe_btn)) {
 			j1Passe_btn.setDisable(true);
@@ -163,10 +180,13 @@ public class GoController {
 			grid_pane.setOnMouseClicked(null);
 			grid_pane.setOnTouchMoved(null);
 			croix_img.setVisible(false);
+			partieFini=false;
+			annuler_btn.setVisible(false);
+			drawPierre();
 		}
 	}
 	
-	/*Redimension désactivé
+	/*Redimension (désactivé)
 	public void redimension() {
 		plateauX = (int)(plateau_img.getX()-(plateau_img.getImage().getWidth()/2));
 		plateauY = (int)plateau_img.getLayoutY();
@@ -192,6 +212,7 @@ public class GoController {
 		return index;
 	}
 	
+	//Mise à jour de l'affichage
 	private void displayUpdate() {
 		if(go.getActualJoueur().getPierre().getCouleur() == CouleurPierre.Noire) {
 			j1Passe_btn.setDisable(false);
@@ -208,7 +229,7 @@ public class GoController {
 		//Fin de partie, suppression des pierres mortes
 		if(go.partieFini()) {
 			partieFini = true;
-			message_lbl.setText("Partie Terminé !\nSupprimez les pierres mortes");
+			message_lbl.setText(" ");
 			pierreFantome_img.setVisible(false);
 			croix_img.setVisible(true);
 			j1Passe_btn.setDisable(false);
@@ -219,10 +240,12 @@ public class GoController {
 			j2Passe_btn.setOnAction(this::validerClicked);
 			bolBlanc_img.setVisible(false);
 			bolNoire_img.setVisible(false);
+			annuler_btn.setVisible(true);
 		}
 		drawPierre();
 	}
 	
+	//Affichage des pierres du plateau
 	private void drawPierre() {
 		Plateau plateau = go.getPlateau();
 		pierre_pane.getChildren().clear();
