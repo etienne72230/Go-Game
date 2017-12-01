@@ -8,7 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ComboBox;
-
+/**
+ * Controleur de la fenetre d'option
+ * 
+ * @author Etienne Cayon
+ *
+ */
 public class optionController {
 	@FXML
 	private TextField joueur1_tf;
@@ -28,10 +33,15 @@ public class optionController {
 		commencer_btn.setOnMouseClicked(this::commencer);
     }
 	
+	/**
+	 * Lien vers le main
+	 */
 	public void setApp(Main main) {
 		this.main = main;
 	}
-	
+	/**
+	 * Commencer la partie
+	 */
 	private void commencer(MouseEvent event) {
 		if(taille_cb.getValue()==null) taille_cb.setValue("9x9");
 		if(joueur1_tf.getText().equals("")) joueur1_tf.setText("Joueur1");

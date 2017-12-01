@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe permetant la gestion des pierres sur le plateau
+ * @author Etienne Cayon
+ */
 public class Plateau  implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int taille;
 	private List<Intersection> intersections = new ArrayList<Intersection>();
@@ -27,7 +28,16 @@ public class Plateau  implements Serializable{
 		return intersections;
 	}
 	
-	//Ajout d'une pierre sur une intersection
+	/**
+	 * Ajout d'une pierre sur une intersection
+	 * @param x
+	 * 		coordonnée X de la pierre à ajouter
+	 * @param y
+	 *		coordonnée Y de la pierre à ajouter
+	 * @param p
+	 * 		pierre à ajouter
+	 * @return	nombre de prisonnier réalisé
+	 */
 	public int addPierre(int x, int y, Pierre p){
 		int prisonniers=0;
 		for(Intersection inter : intersections){
@@ -53,7 +63,14 @@ public class Plateau  implements Serializable{
 		return -1;
 	}
 	
-	//Suppression d'une pierre sur une intersection
+	/**
+	 * Suppression d'une pierre
+	 * @param x
+	 * 		coordonnée X de la pierre à supprimer
+	 * @param y
+	 * 		coordonnée Y de la pierre à supprimer
+	 * @return	pierre supprimé
+	 */
 	public Pierre removePierre(int x, int y){
 		for(Intersection inter : intersections){
 			if( inter.getX() == x && inter.getY() == y && inter.getPierre()!= null){
@@ -65,7 +82,14 @@ public class Plateau  implements Serializable{
 		return null;		
 	}
 	
-	//Retourne la pierre sur l'intersection voulue s'il y en a une
+	/**
+	 * Donne la pierre qui se trouve aux coordonnées indiqué
+	 * @param x
+	 * 		coordonnée X de l'intersection à controler
+	 * @param y
+	 * 		coordonnée Y de l'intersection à controler
+	 * @return	pierre qui se trouve sur l'intersection indiqué
+	 */
 	public Pierre getPierre(int x, int y){
 		
 		//return intersections.get(calculIndex(x, y, taille)).getPierre();
@@ -76,10 +100,17 @@ public class Plateau  implements Serializable{
 		}
 		return null;
 	}
-	
-	//Mise a jour du plateau retourne le nombre de pierre enprisonné
-	//Retourne -1 si le coup n'est pas jouable
-	//Retourne sinon le nombre de prisonnier effectué
+
+	/**
+	 * Mise à jour du plateau suite à la pause d'une nouvelle pierre
+	 * @param x
+	 * 		coordonnée X de la pierre ajouté
+	 * @param y
+	 * 		coordonnée Y de la pierre ajouté
+	 * @param p
+	 * 		pierre ajouté
+	 * @return	(-1) si le coup n'est pas possible, sinon le nombre de prisonnier éffectué
+	 */
 	public int updatePlateau(int x, int y, Pierre p){
 		int prisonnier = 0;
 		for(Intersection inter : intersections){
@@ -130,6 +161,15 @@ public class Plateau  implements Serializable{
 	
 	//Créer une liste des pierres de meme couleur qui se touche
 	//elle sont potentiellement prisonnière
+	/**
+	 * Création des groupes de pierres affecté par la pose d'une nouvelle pierre. Il peut y avoir un groupe de chaque coté de la pierre posé.
+	 * @param x
+	 * 		coordonnée X de la nouvelle pierre
+	 * @param y
+	 * 		coordonnée Y de la nouvelle pierre
+	 * @param p
+	 * 		pierre ajouté
+	 */
 	private void groupePrisonnier(int x, int y, Pierre p){
 		for(int i=0; i<intersections.size(); i++){
 			
@@ -183,7 +223,10 @@ public class Plateau  implements Serializable{
 		}
 	}
 	
-	//Verifie que le groupe est prisonnié
+	/**
+	 * Verifie que le groupe est fait prisonnier
+	 * @return	si le groupe est prisonnié
+	 */
 	private boolean isPrisonniers(){
 		for(int i : indexPrisonniers){
 			//haut
@@ -206,7 +249,10 @@ public class Plateau  implements Serializable{
 		return true;
 	}
 	
-	//Supprime les pierres qui sont prisonnières
+	/**
+	 * Supprime les pierres qui sont prisonnières
+	 * @return	le nombre de prisonnier effectué
+	 */
 	private int removePrisonniers(){
 		int nbPrisonnier= indexPrisonniers.size();
 		for(int i : indexPrisonniers){
@@ -215,12 +261,21 @@ public class Plateau  implements Serializable{
 		return nbPrisonnier;
 	}
 	
-	//Retourne la taille du plateau
+	//Taille du plateau
 	public int getTaille(){
 		return taille;
 	}
 	
-	//Calcul l'index de l'ArrayList par rapport aux coordonnées et à la taille du plateau
+	/**
+	 * Calcul l'index de l'ArrayList par rapport aux coordonnées et à la taille du plateau
+	 * @param x
+	 * 		coordonnée X
+	 * @param y
+	 * 		coordonnée Y
+	 * @param taille
+	 * 		taille du plateau
+	 * @return	index correspondant aux coordonnées données
+	 */
 	private static int calculIndex(int x, int y, int taille){
 		return x+taille*y;
 	}
@@ -244,7 +299,11 @@ public class Plateau  implements Serializable{
 		print+="##";
 		return print;
 	}
-
+	/**
+	 * Calculer le score des deux joueurs
+	 * @param joueur1
+	 * @param joueur2
+	 */
 	public void calculScore(Joueur joueur1, Joueur joueur2) {
 		List<List<Integer>> listeGroupe = new ArrayList<List<Integer>>();
 		for(int i=0; i<intersections.size(); i++){
@@ -289,7 +348,15 @@ public class Plateau  implements Serializable{
 		
 	}
 	
-	//Création groupe de territoire vide
+	/**
+	 * Création des groupe de territoire vide
+	 * @param x
+	 * 		coordonnée X de l'intersection à vérifier
+	 * @param y
+	 * 		coordonnée Y de l'intersection à vérifier
+	 * @param liste
+	 * 		liste des intersections déjà traité
+	 */
 	private void formationGroupe(int x, int y, List<Integer> liste){
 		
 		for(int i=0; i<intersections.size(); i++){
@@ -344,8 +411,13 @@ public class Plateau  implements Serializable{
 		}
 	}
 	
-	//Renvoi la pierre qui possède le territoire
-	//Renvoi null si le territoire n'est à personne
+
+	/**
+	 * Regarde si le groupe appartient à un joueur
+	 * @param liste
+	 * 		groupe à vérifier
+	 * @return	pierre qui possède le groupe, null si le groupe est à personne
+	 */
 	private Pierre isTerritoire(List<Integer> liste){
 		Pierre p = null;
 		for(int i : liste){

@@ -12,7 +12,11 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
+/**
+ * Classe principal pour lancer le jeu en version graphique
+ * @author Etienne Cayon
+ *
+ */
 public class Main extends Application {
 	
 	
@@ -53,6 +57,9 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	/**
+	 * Création d'une nouvelle partie
+	 */
 	public void nouvellePartie() {
 		FXMLLoader loaderOption = new FXMLLoader(getClass().getResource("option.fxml"));
 		Scene sceneOption;
@@ -72,7 +79,17 @@ public class Main extends Application {
 		}
 	}
 	
-	
+	/**
+	 * Initialisation du jeu
+	 * @param taille_str
+	 * 		taille du plateau
+	 * @param komi
+	 * 		nombre de point de départ du joueur blanc pour compenser le fait qu'il ne commence pas
+	 * @param j1
+	 * 		pseudo joueur 1
+	 * @param j2
+	 * 		pseudo joueur 2
+	 */
 	public void initGo(String taille_str, Double komi, String j1, String j2) {
 		stageOption.close();
 		int taille;

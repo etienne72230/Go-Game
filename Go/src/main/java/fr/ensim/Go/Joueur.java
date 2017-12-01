@@ -2,11 +2,14 @@ package fr.ensim.Go;
 
 import java.io.Serializable;
 
+/**
+ * Classe qui représente les joueurs
+ * @author Etienne Cayon
+ *
+ */
 public class Joueur  implements Serializable{
 
-		/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 		private String pseudo;
 		private Pierre pierre;
@@ -30,6 +33,11 @@ public class Joueur  implements Serializable{
 			return nbPrisonniers;
 		}
 
+		/**
+		 * Augmenter le nombre de prisonnier réalisé
+		 * @param nb
+		 * 		nombre de prisonnier à rajouter
+		 */
 		public void addPrisonniers(int nb) {
 			nbPrisonniers+=nb;
 		}
@@ -49,7 +57,9 @@ public class Joueur  implements Serializable{
 		public void setFin(boolean b){
 			fin = b;
 		}
-		
+		/**
+		 * @return si le joueur veux terminer la partie
+		 */
 		public boolean getFin(){
 			return fin;
 		}

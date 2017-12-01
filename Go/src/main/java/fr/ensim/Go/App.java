@@ -7,8 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Hello world!
- *
+ * Classe pour lancer le jeu en console
+ * @author Etienne Cayon
  */
 public class App 
 {
@@ -22,7 +22,9 @@ public class App
         go.jouer();
     }
     
-	
+	/**
+	 * Sérialisation de la partie
+	 */
 	public static void sauvegarde() {
 		try {
 			System.out.println("Sauvegarde en cours");
@@ -44,6 +46,9 @@ public class App
 		}
 	}
 	
+	/**
+	 * Désérialisation de la partie
+	 */
 	public static void chargement() {
 		System.out.println("Chargement en cours");
 		try {

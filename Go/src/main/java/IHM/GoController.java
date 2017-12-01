@@ -18,6 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Menu;
 
+/**
+ * Classe principal pour la gestion graphique du jeu
+ * @author Etienne Cayon
+ *
+ */
 public class GoController {
 	@FXML
 	private MenuItem sauvegarder_btn;
@@ -59,6 +64,13 @@ public class GoController {
 	private Image pierreBlanche_img;
 	
 	private Main main;
+	/**
+	 * Lancer le jeu
+	 * @param go
+	 * 		classe go du jeu
+	 * @param main
+	 * 		lien vers la classe main
+	 */
 	public void LauchGame(Go go, Main main) {
 		
 		this.go = go;
@@ -102,11 +114,13 @@ public class GoController {
 		plateauY = (int)plateau_img.getLayoutY();*/
 		displayUpdate();
 	}
-	
+
+	//Création nouvelle partie
 	private void nouvellePartie(ActionEvent event) {
 		main.nouvellePartie();
 	}
 	
+	//Souris bougé
 	private void mouseMoved(MouseEvent event) {
 		//System.out.println("X : "+getGridX((int)event.getX())+" Y : "+getGridY((int)event.getY()));
 		if(partieFini == false) {
@@ -123,6 +137,7 @@ public class GoController {
 		}
 	}
 	
+	//Clic de la souris
 	private void mouseClicked(MouseEvent event) {
 		if(event.getTarget()==plateau_img) {
 			if(partieFini == false) {

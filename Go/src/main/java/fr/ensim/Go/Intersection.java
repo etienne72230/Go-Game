@@ -2,11 +2,13 @@ package fr.ensim.Go;
 
 import java.io.Serializable;
 
+/**
+ * Classe des intersections du plateau
+ * @author Etienne Cayon
+ *
+ */
 public class Intersection  implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
