@@ -4,12 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import IHM.Main;
+
+
+
 /**
  * Classe permetant la gestion des pierres sur le plateau
  * @author Etienne Cayon
  */
 public class Plateau  implements Serializable{
-
+	
 	private static final long serialVersionUID = 1L;
 	private int taille;
 	private List<Intersection> intersections = new ArrayList<Intersection>();
@@ -52,7 +59,7 @@ public class Plateau  implements Serializable{
 						if(p.getCouleur()==CouleurPierre.Noire) groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
 						if(isPrisonniers()){
 							removePierre(x, y);
-							System.out.println("Coup suicidaire");
+							Main.logger.warn("Coup suicidaire");
 							return -1;
 						}
 					}

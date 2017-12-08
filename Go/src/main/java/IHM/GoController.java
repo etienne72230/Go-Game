@@ -52,6 +52,8 @@ public class GoController {
 	private Label message_lbl;
 	@FXML
 	private Button annuler_btn;
+	@FXML
+	private ImageView fond_img;
 	
 	public  Go go;
 	private int plateauX;
@@ -103,6 +105,8 @@ public class GoController {
 		j1Passe_btn.setText("Passer");
 		j2Passe_btn.setText("Passer");
 		message_lbl.setText("");
+		
+		fond_img.setPreserveRatio(false);
 		
 		plateauY = 120;
 		switch(go.getPlateau().getTaille()) {

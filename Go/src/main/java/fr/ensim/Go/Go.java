@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
+import IHM.Main;
+
 public class Go implements Serializable{
 
 	/**
@@ -125,6 +129,7 @@ public class Go implements Serializable{
 				actualJoueur=(actualJoueur+1)%2;
 				return true;
 			}else{
+				Main.logger.warn("Coup non joué");
 				return false;
 			}
 		}

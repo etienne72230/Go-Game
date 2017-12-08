@@ -2,6 +2,9 @@ package IHM;
 
 import java.io.IOException;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import fr.ensim.Go.Go;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -25,8 +28,11 @@ public class Main extends Application {
 	private optionController controllerOption;
 	private Stage stageOption;
 	private Stage stageGo;
+	public static final Logger logger = Logger.getLogger(Main.class);
+	
 	@Override
 	public void start(Stage stage) {
+		
 		stageGo = stage;
 		FXMLLoader loaderGo = new FXMLLoader(getClass().getResource("Go.fxml"));
 		FXMLLoader loaderOption = new FXMLLoader(getClass().getResource("option.fxml"));

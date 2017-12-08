@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Etienne Cayon
  *
  */
-public class Joueur  implements Serializable{
+public class Joueur  implements Serializable, Comparable<Joueur>{
 
 
 	private static final long serialVersionUID = 1L;
@@ -62,5 +62,10 @@ public class Joueur  implements Serializable{
 		 */
 		public boolean getFin(){
 			return fin;
+		}
+
+		@Override
+		public int compareTo(Joueur j) {
+			return nbPrisonniers-j.getNbPrisonniers();
 		}
 }
