@@ -2,13 +2,10 @@ package IHM;
 
 import java.io.IOException;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import fr.ensim.Go.Go;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -51,7 +48,8 @@ public class Main extends Application {
 	        stageOption.setTitle("Nouvelle partie");
 	        stageGo.setResizable(false);
 	        stageGo.setTitle("Jeu de Go");
-	        stageOption.initModality(Modality.APPLICATION_MODAL);
+	        stageOption.initModality(Modality.APPLICATION_MODAL); 
+	        controllerGo.init(this);
 	        stageGo.show();
 	        stageOption.show();
 		} catch (IOException e) {
@@ -85,6 +83,7 @@ public class Main extends Application {
 		}
 	}
 	
+	
 	/**
 	 * Initialisation du jeu
 	 * @param taille_str
@@ -107,7 +106,13 @@ public class Main extends Application {
 		}
 		stageGo.centerOnScreen();
 		go = new Go(taille, komi, j1, j2);
-		controllerGo.LauchGame(go, this);
+		controllerGo.LauchGame(go);
+	}
+	
+	public void setStageSize(int width, int height) {
+		stageGo.setWidth(width);
+		stageGo.setHeight(height);
+		stageGo.centerOnScreen();
 	}
 
 }

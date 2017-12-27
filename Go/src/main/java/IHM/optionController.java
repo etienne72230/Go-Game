@@ -1,6 +1,7 @@
 package IHM;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -25,6 +26,7 @@ public class optionController {
 	private TextField komi_tf;
 	@FXML
 	private ComboBox<String> taille_cb;
+	
 	
 	private Main main;
 	

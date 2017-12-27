@@ -1,5 +1,12 @@
 package IHM;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import fr.ensim.Go.CouleurPierre;
 import fr.ensim.Go.Go;
 import fr.ensim.Go.Intersection;
@@ -16,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.scene.control.Menu;
 
 /**
@@ -73,21 +81,34 @@ public class GoController {
 	 * @param main
 	 * 		lien vers la classe main
 	 */
-	public void LauchGame(Go go, Main main) {
-		
-		this.go = go;
+	
+	//Initialisation de la fenetre 
+	public void init(Main main) {
 		this.main = main;
 		
-		partieFini = false;
-		
+		//Initialisation des images
 		pierreNoire_img = new Image(getClass().getResource("/pierre_noire.png").toString());
 		pierreBlanche_img = new Image(getClass().getResource("/pierre_blanche.png").toString());
+		croix_img = new ImageView(new Image(getClass().getResource("/croix.png").toString()));
+		
+		//Gestion de partie
+		nouvellePartie_btn.setOnAction(this::nouvellePartie);
+		sauvegarder_btn.setOnAction(this::sauvergarderPartie);
+		charger_btn.setOnAction(this::chargerPartie);
+		fond_img.setFitWidth(grid_pane.getWidth());
+	}
+	
+	public void LauchGame(Go go) {
+		
+		this.go = go;
+		
+		partieFini = false;
 		
 		pierreFantome_img = new ImageView(pierreNoire_img);
 		pierreFantome_img.setOpacity(0.75);
 		pierre_pane.getChildren().add(pierreFantome_img);
 		
-		croix_img = new ImageView(new Image(getClass().getResource("/croix.png").toString()));
+		
 		croix_img.setVisible(false);
 		plateau_img.setImage(new Image(getClass().getResource("/goban_"+go.getPlateau().getTaille()+".png").toString()));
 		score_lbl.setText(go.getJoueurs().get(0).getPseudo()+"     Vs     "+go.getJoueurs().get(1).getPseudo());
@@ -95,7 +116,7 @@ public class GoController {
 		j2Passe_btn.setDisable(true);
 		grid_pane.setOnMouseMoved(this::mouseMoved);
 		grid_pane.setOnMouseClicked(this::mouseClicked);
-		nouvellePartie_btn.setOnAction(this::nouvellePartie);
+		
 		annuler_btn.setOnAction(this::annulerFin);
 		
 		j1Passe_btn.setOnAction(this::passeClicked);
@@ -117,11 +138,81 @@ public class GoController {
 		/*plateauX = (int)(plateau_img.getLayoutX()-(plateau_img.getImage().getWidth()/2));
 		plateauY = (int)plateau_img.getLayoutY();*/
 		displayUpdate();
+		fond_img.setFitHeight(grid_pane.getHeight());
+		fond_img.setFitWidth(grid_pane.getWidth());
 	}
 
 	//Création nouvelle partie
 	private void nouvellePartie(ActionEvent event) {
 		main.nouvellePartie();
+	}
+	
+	private void sauvergarderPartie(ActionEvent event) {
+		
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Save (*.save)", "*.save");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showSaveDialog(null);
+		if(file != null) {
+			try {
+				System.out.println("Sauvegarde en cours");
+				FileOutputStream fos = new FileOutputStream(file);
+				ObjectOutputStream oos= new ObjectOutputStream(fos);
+				try {
+					oos.writeObject(go); 
+					oos.flush();
+					System.out.println("Sauvegarde terminé");
+				} finally {
+					try {
+						oos.close();
+					} finally {
+						fos.close();
+					}
+				}
+			}catch(IOException ioe) {
+				ioe.printStackTrace();
+	
+			}
+		}
+        
+	}
+	
+	private void chargerPartie(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Save (*.save)", "*.save");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showOpenDialog(null);
+		if(file != null) {
+			try {
+				// ouverture d'un flux d'entrée depuis le fichier "personne.serial"
+				FileInputStream fis = new FileInputStream(file);
+				// création d'un "flux objet" avec le flux fichier
+				ObjectInputStream ois= new ObjectInputStream(fis);
+				try {	
+					// désérialisation : lecture de l'objet depuis le flux d'entrée
+					go = (Go) ois.readObject();
+				} finally {
+					// on ferme les flux
+					try {
+						ois.close();
+					} finally {
+						fis.close();
+					}
+				}
+			} catch(IOException ioe) {
+				ioe.printStackTrace();
+			} catch(ClassNotFoundException cnfe) {
+				cnfe.printStackTrace();
+			}
+			switch (go.getPlateau().getTaille()){
+			case 9: main.setStageSize(790, 580); break;
+			case 13: main.setStageSize(950, 760); break;
+			case 19: main.setStageSize(1220, 1000); break;
+		}
+			LauchGame(go);
+			displayUpdate();
+		}
+		
 	}
 	
 	//Souris bougé
