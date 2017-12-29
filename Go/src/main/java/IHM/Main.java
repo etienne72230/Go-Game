@@ -23,8 +23,12 @@ public class Main extends Application {
 	private  Go go;
 	private GoController controllerGo;
 	private optionController controllerOption;
+	
+	
 	private Stage stageOption;
 	private Stage stageGo;
+	private Stage stageInfo;
+	
 	public static final Logger logger = Logger.getLogger(Main.class);
 	
 	@Override
@@ -77,6 +81,23 @@ public class Main extends Application {
 	        stageOption.setTitle("Nouvelle partie");
 	        stageOption.initModality(Modality.APPLICATION_MODAL);
 			stageOption.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void showInformation() {
+		FXMLLoader loaderInfo = new FXMLLoader(getClass().getResource("info.fxml"));
+		Scene sceneInfo;
+		try {
+			sceneInfo = new Scene((Parent) loaderInfo.load());
+			stageInfo = new Stage();
+			stageInfo.setScene(sceneInfo);
+			stageInfo.setResizable(false);
+			stageInfo.setTitle("Information");
+			stageInfo.initModality(Modality.APPLICATION_MODAL);
+			stageInfo.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

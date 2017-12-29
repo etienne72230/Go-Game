@@ -1,10 +1,8 @@
 package IHM;
 
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -21,8 +19,6 @@ public class optionController {
 	@FXML
 	private TextField joueur2_tf;
 	@FXML
-	private Button commencer_btn;
-	@FXML
 	private TextField komi_tf;
 	@FXML
 	private ComboBox<String> taille_cb;
@@ -32,7 +28,6 @@ public class optionController {
 	
 	public void initialize() {
 		taille_cb.getItems().addAll("9x9", "13x13", "19x19");
-		commencer_btn.setOnMouseClicked(this::commencer);
     }
 	
 	/**
@@ -44,6 +39,7 @@ public class optionController {
 	/**
 	 * Commencer la partie
 	 */
+	@FXML
 	private void commencer(MouseEvent event) {
 		if(taille_cb.getValue()==null) taille_cb.setValue("9x9");
 		if(joueur1_tf.getText().equals("")) joueur1_tf.setText("Joueur1");

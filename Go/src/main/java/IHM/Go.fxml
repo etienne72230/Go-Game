@@ -95,16 +95,16 @@
          <menus>
             <Menu mnemonicParsing="false" text="Fichier">
                <items>
-                  <MenuItem fx:id="sauvegarder_btn" mnemonicParsing="false" text="Sauvegarder" />
-                  <MenuItem fx:id="charger_btn" mnemonicParsing="false" text="Charger" />
+                  <MenuItem fx:id="sauvegarder_btn" mnemonicParsing="false" onAction="#sauvegarderPartie" text="Sauvegarder" />
+                  <MenuItem fx:id="charger_btn" mnemonicParsing="false" onAction="#chargerPartie" text="Charger" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edition">
                <items>
-                  <MenuItem fx:id="nouvellePartie_btn" mnemonicParsing="false" text="Nouvelle partie" />
+                  <MenuItem fx:id="nouvellePartie_btn" mnemonicParsing="false" onAction="#nouvellePartie" text="Nouvelle partie" />
+                  <MenuItem fx:id="info_btn" mnemonicParsing="false" onAction="#showInformation" text="Information" />
                </items>
             </Menu>
-            <Menu fx:id="info_btn" mnemonicParsing="false" text="Info" />
          </menus>
       </MenuBar>
    </children>

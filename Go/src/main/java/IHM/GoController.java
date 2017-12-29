@@ -14,9 +14,6 @@ import fr.ensim.Go.Plateau;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
-import javafx.scene.control.MenuItem;
-
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import javafx.scene.control.Menu;
 
 /**
  * Classe principal pour la gestion graphique du jeu
@@ -32,14 +28,6 @@ import javafx.scene.control.Menu;
  *
  */
 public class GoController {
-	@FXML
-	private MenuItem sauvegarder_btn;
-	@FXML
-	private MenuItem charger_btn;
-	@FXML
-	private MenuItem nouvellePartie_btn;
-	@FXML
-	private Menu info_btn;
 	@FXML
 	private Button j1Passe_btn;
 	@FXML
@@ -92,12 +80,11 @@ public class GoController {
 		croix_img = new ImageView(new Image(getClass().getResource("/croix.png").toString()));
 		
 		//Gestion de partie
-		nouvellePartie_btn.setOnAction(this::nouvellePartie);
-		sauvegarder_btn.setOnAction(this::sauvergarderPartie);
-		charger_btn.setOnAction(this::chargerPartie);
 		fond_img.setFitWidth(grid_pane.getWidth());
+		
 	}
 	
+	//Initialisation du jeu
 	public void LauchGame(Go go) {
 		
 		this.go = go;
@@ -143,11 +130,18 @@ public class GoController {
 	}
 
 	//Création nouvelle partie
+	@FXML
 	private void nouvellePartie(ActionEvent event) {
 		main.nouvellePartie();
 	}
 	
-	private void sauvergarderPartie(ActionEvent event) {
+	@FXML
+	private void showInformation(ActionEvent event) {
+		main.showInformation();
+	}
+	
+	@FXML
+	private void sauvegarderPartie(ActionEvent event) {
 		
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Save (*.save)", "*.save");
@@ -177,6 +171,7 @@ public class GoController {
         
 	}
 	
+	@FXML
 	private void chargerPartie(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Save (*.save)", "*.save");

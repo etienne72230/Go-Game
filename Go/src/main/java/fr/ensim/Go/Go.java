@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
 import IHM.Main;
 
 public class Go implements Serializable{
