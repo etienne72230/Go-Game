@@ -26,7 +26,7 @@ public class infoController {
 	
 	@FXML
 	public void initialize() {
-		profil_img.setImage(new Image(getClass().getResource("/profil.jpg").toString()));
+		profil_img.setImage(new Image(getClass().getResource("/profil.png").toString()));
 	}
 	// Event Listener on Button[#ok_btn].onAction
 	@FXML

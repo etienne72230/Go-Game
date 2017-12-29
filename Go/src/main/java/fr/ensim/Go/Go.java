@@ -124,6 +124,7 @@ public class Go implements Serializable{
 			int prisonniers = plateau.addPierre(x, y, joueurs.get(actualJoueur).getPierre());
 			if(prisonniers != -1){
 				joueurs.get(actualJoueur).addPrisonniers(prisonniers);
+				Main.logger.info(joueurs.get(actualJoueur).getPseudo()+" a joué en ["+x+", "+y+"] et a fait "+prisonniers+" prisonnier(s)");
 				actualJoueur=(actualJoueur+1)%2;
 				return true;
 			}else{

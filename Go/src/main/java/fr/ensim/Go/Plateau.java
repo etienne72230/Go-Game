@@ -52,8 +52,13 @@ public class Plateau  implements Serializable{
 					//Si le joueur ne fait pas de point il ne faut pas qu'il soit fait prisonnier (coup suicidaire)
 					if(prisonniers==0){
 						indexPrisonniers.clear();
-						if(p.getCouleur()==CouleurPierre.Blanc) groupePrisonnier(x, y, new Pierre(CouleurPierre.Noire));
-						if(p.getCouleur()==CouleurPierre.Noire) groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
+						if(p.getCouleur()==CouleurPierre.Blanc) {
+							groupePrisonnier(x, y, new Pierre(CouleurPierre.Noire));
+						}else { 
+							if(p.getCouleur()==CouleurPierre.Noire) {
+								groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
+							}
+						}
 						if(isPrisonniers()){
 							removePierre(x, y);
 							Main.logger.warn("Coup suicidaire");

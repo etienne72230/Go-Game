@@ -11,6 +11,9 @@ import fr.ensim.Go.CouleurPierre;
 import fr.ensim.Go.Go;
 import fr.ensim.Go.Intersection;
 import fr.ensim.Go.Plateau;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +23,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 /**
  * Classe principal pour la gestion graphique du jeu
@@ -62,6 +69,12 @@ public class GoController {
 	private Image pierreBlanche_img;
 	
 	private Main main;
+	
+	private TranslateTransition bolNoireIn;
+	private TranslateTransition bolNoireOut;
+	private TranslateTransition bolBlancIn;
+	private TranslateTransition bolBlancOut;
+	
 	/**
 	 * Lancer le jeu
 	 * @param go
@@ -99,7 +112,7 @@ public class GoController {
 		croix_img.setVisible(false);
 		plateau_img.setImage(new Image(getClass().getResource("/goban_"+go.getPlateau().getTaille()+".png").toString()));
 		score_lbl.setText(go.getJoueurs().get(0).getPseudo()+"     Vs     "+go.getJoueurs().get(1).getPseudo());
-		bolBlanc_img.setVisible(false);
+		//bolBlanc_img.setVisible(false);
 		j2Passe_btn.setDisable(true);
 		grid_pane.setOnMouseMoved(this::mouseMoved);
 		grid_pane.setOnMouseClicked(this::mouseClicked);
@@ -124,9 +137,33 @@ public class GoController {
 		}
 		/*plateauX = (int)(plateau_img.getLayoutX()-(plateau_img.getImage().getWidth()/2));
 		plateauY = (int)plateau_img.getLayoutY();*/
-		displayUpdate();
 		fond_img.setFitHeight(grid_pane.getHeight());
 		fond_img.setFitWidth(grid_pane.getWidth());
+		
+		bolNoireIn = new TranslateTransition(Duration.millis(1000), bolNoire_img);
+		bolNoireIn.setFromX(-190);
+		bolNoireIn.setToX(bolNoire_img.getX());
+		bolNoireIn.setCycleCount(1);
+		bolNoireIn.setAutoReverse(true);
+		       
+		bolNoireOut = new TranslateTransition(Duration.millis(1000), bolNoire_img);
+		bolNoireOut.setFromX(bolNoire_img.getX());
+		bolNoireOut.setToX(-190);
+		bolNoireOut.setCycleCount(1);
+		bolNoireOut.setAutoReverse(true);
+		       
+		bolBlancIn = new TranslateTransition(Duration.millis(1000), bolBlanc_img);
+		bolBlancIn.setFromX(grid_pane.getLayoutX()+190);
+		bolBlancIn.setToX(bolBlanc_img.getX());
+		bolBlancIn.setCycleCount(1);
+		bolBlancIn.setAutoReverse(true);
+		       
+		bolBlancOut = new TranslateTransition(Duration.millis(1000), bolBlanc_img);
+		bolBlancOut.setFromX(bolBlanc_img.getX());
+		bolBlancOut.setToX(grid_pane.getLayoutX()+190);
+		bolBlancOut.setCycleCount(1);
+		bolBlancOut.setAutoReverse(true);
+		displayUpdate();
 	}
 
 	//Création nouvelle partie
@@ -319,16 +356,19 @@ public class GoController {
 	
 	//Mise à jour de l'affichage
 	private void displayUpdate() {
+		bolNoire_img.setVisible(true);
+		bolBlanc_img.setVisible(true);
 		if(go.getActualJoueur().getPierre().getCouleur() == CouleurPierre.Noire) {
+
 			j1Passe_btn.setDisable(false);
 			j2Passe_btn.setDisable(true);
-			bolNoire_img.setVisible(true);
-			bolBlanc_img.setVisible(false);
+			bolNoireIn.play();
+			bolBlancOut.play();
 		}else {
 			j1Passe_btn.setDisable(true);
 			j2Passe_btn.setDisable(false);
-			bolNoire_img.setVisible(false);
-			bolBlanc_img.setVisible(true);
+			bolNoireOut.play();
+			bolBlancIn.play();
 		}
 		
 		//Fin de partie, suppression des pierres mortes
