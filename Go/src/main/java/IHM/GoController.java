@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -129,11 +130,11 @@ public class GoController {
 		
 		fond_img.setPreserveRatio(false);
 		
-		plateauY = 120;
+		plateauY = 114;
 		switch(go.getPlateau().getTaille()) {
-		case 9: plateauX = 191; break;
+		case 9: plateauX = 196; break;
 		case 13: plateauX = 184; break;
-		case 19: plateauX = 187; break;
+		case 19: plateauX = 189; break;
 		}
 		/*plateauX = (int)(plateau_img.getLayoutX()-(plateau_img.getImage().getWidth()/2));
 		plateauY = (int)plateau_img.getLayoutY();*/
@@ -270,6 +271,7 @@ public class GoController {
 			if(partieFini == false) {
 				if(go.jouerPierre(getGridX((int)event.getX()), getGridY((int)event.getY()))) {
 					message_lbl.setText("");
+					displayUpdate();
 				}else {
 					message_lbl.setText("Coup Impossible");
 				}
@@ -278,7 +280,6 @@ public class GoController {
 				j1Passe_btn.setDisable(false);
 				j2Passe_btn.setDisable(false);
 			}
-			displayUpdate();
 		}
 	}
 	
