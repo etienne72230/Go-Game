@@ -36,7 +36,7 @@ public class Go implements Serializable{
 
 		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire), 0));
 		actualJoueur = 0;
-		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc), komi));
+		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanche), komi));
 		plateau = new Plateau(taille);
 	}
 	/**
@@ -52,7 +52,7 @@ public class Go implements Serializable{
 		
 		joueurs.add(new Joueur(pseudo1, new Pierre(CouleurPierre.Noire), 0));
 		actualJoueur = 0;
-		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanc), komi));
+		joueurs.add(new Joueur(pseudo2, new Pierre(CouleurPierre.Blanche), komi));
 		plateau = new Plateau(19);
 	}
 	
@@ -100,9 +100,14 @@ public class Go implements Serializable{
 	 * @return le joueur gagnant
 	 */
 	public Joueur getGagnant() {
-		if(joueurs.get(0).getScore()> joueurs.get(1).getScore()) return joueurs.get(0);
-		if(joueurs.get(0).getScore()< joueurs.get(1).getScore()) return joueurs.get(1);
-		return null;
+		
+		if(joueurs.get(0).compareTo(joueurs.get(1)) < 0) {
+			return joueurs.get(0);
+		}else if(joueurs.get(0).compareTo(joueurs.get(1)) > 0) {
+			return joueurs.get(1);
+		}else {
+			return null;
+		}
 	}
 	
 	/**

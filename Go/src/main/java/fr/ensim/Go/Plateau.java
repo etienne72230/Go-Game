@@ -52,11 +52,11 @@ public class Plateau  implements Serializable{
 					//Si le joueur ne fait pas de point il ne faut pas qu'il soit fait prisonnier (coup suicidaire)
 					if(prisonniers==0){
 						indexPrisonniers.clear();
-						if(p.getCouleur()==CouleurPierre.Blanc) {
+						if(p.getCouleur()==CouleurPierre.Blanche) {
 							groupePrisonnier(x, y, new Pierre(CouleurPierre.Noire));
 						}else { 
 							if(p.getCouleur()==CouleurPierre.Noire) {
-								groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanc));
+								groupePrisonnier(x, y, new Pierre(CouleurPierre.Blanche));
 							}
 						}
 						if(isPrisonniers()){
@@ -335,7 +335,7 @@ public class Plateau  implements Serializable{
 			}else{
 				//1 point par pierre sur le plateau
 				if(intersections.get(i).getPierre().getCouleur()== CouleurPierre.Noire) joueur1.addPoint(1);
-				if(intersections.get(i).getPierre().getCouleur()== CouleurPierre.Blanc) joueur2.addPoint(1);
+				if(intersections.get(i).getPierre().getCouleur()== CouleurPierre.Blanche) joueur2.addPoint(1);
 			}
 		}
 		//Regarder si les territoires sont controler par un joueur

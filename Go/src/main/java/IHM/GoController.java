@@ -11,8 +11,6 @@ import fr.ensim.Go.CouleurPierre;
 import fr.ensim.Go.Go;
 import fr.ensim.Go.Intersection;
 import fr.ensim.Go.Plateau;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,10 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -399,7 +393,7 @@ public class GoController {
 		for(Intersection i: plateau.getIntersections()){
 			if(i.getPierre()!=null){
 				ImageView pierre_img;
-				if(i.getPierre().getCouleur() == CouleurPierre.Blanc){
+				if(i.getPierre().getCouleur() == CouleurPierre.Blanche){
 					pierre_img = new ImageView(pierreBlanche_img);
 					pierre_img.setLayoutX(getDispX(i.getX()));
 					pierre_img.setLayoutY(getDispY(i.getY()));
@@ -415,7 +409,7 @@ public class GoController {
 		if(partieFini) {
 			for(Intersection i : go.getPierreSupprime()) {
 				ImageView pierreSupprime_img;
-				if(i.getPierre().getCouleur() == CouleurPierre.Blanc){
+				if(i.getPierre().getCouleur() == CouleurPierre.Blanche){
 					pierreSupprime_img = new ImageView(pierreBlanche_img);
 					pierreSupprime_img.setLayoutX(getDispX(i.getX()));
 					pierreSupprime_img.setLayoutY(getDispY(i.getY()));

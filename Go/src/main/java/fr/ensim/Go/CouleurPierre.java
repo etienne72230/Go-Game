@@ -5,6 +5,6 @@ package fr.ensim.Go;
  *
  */
 public enum CouleurPierre {
-	Blanc,
+	Blanche,
 	Noire;
 }

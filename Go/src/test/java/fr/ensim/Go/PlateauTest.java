@@ -12,7 +12,7 @@ public class PlateauTest {
 	@Test
 	public void testPlateau() {
 		Plateau plateau = new Plateau(19);
-		Pierre pB = new Pierre(CouleurPierre.Blanc);
+		Pierre pB = new Pierre(CouleurPierre.Blanche);
 		Pierre pN = new Pierre(CouleurPierre.Noire);
 		
 		assertEquals("Intersection plateau null", null, plateau.getPierre(0, 0));
