@@ -1,7 +1,8 @@
 <h1 align="center">Jeu de Go</h1>
 <p>Jeu de Go réalisé pour un tp de programmation orienté objet, basé sur les <a href="https://fr.wikipedia.org/wiki/R%C3%A8gles_du_go#R%C3%A8gle_chinoise">règles chinoise</a> du jeu. <br></p>
 <h3> Execution </h3>
-<p>Mode console fr.ensim.Go App.java <br>
+<p>Mode executable Go.jar <br>
+Mode console fr.ensim.Go App.java <br>
 Mode graphique (JavaFx) IHM Main.java </p>
 
 <h3> Status </h3>
