@@ -8,7 +8,7 @@ public class GoTest {
 
 	@Test
 	public void testGo() {
-		 Go go = new Go(19, 0, "Etienne", "Lee Sedol");
+		 Go go = new Go(19, 0.5, "Etienne", "Lee Sedol");
 		assertEquals("Joueur qui commence",CouleurPierre.Noire, go.getActualJoueur().getPierre().getCouleur());
 		go.jouerPierre(0, 0);
 		assertEquals("Le joueur a bien changé",CouleurPierre.Blanche, go.getActualJoueur().getPierre().getCouleur());

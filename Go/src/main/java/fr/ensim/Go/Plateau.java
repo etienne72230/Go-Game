@@ -120,7 +120,7 @@ public class Plateau  implements Serializable{
 	 * 		pierre ajouté
 	 * @return	(-1) si le coup n'est pas possible, sinon le nombre de prisonnier éffectué
 	 */
-	public int updatePlateau(int x, int y, Pierre p){
+	private int updatePlateau(int x, int y, Pierre p){
 		int prisonnier = 0;
 		for(Intersection inter : intersections){
 			//Pierre du haut

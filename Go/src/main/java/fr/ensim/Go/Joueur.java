@@ -66,6 +66,12 @@ public class Joueur  implements Serializable, Comparable<Joueur>{
 
 		@Override
 		public int compareTo(Joueur j) {
-			return (int)(j.getScore()-this.getScore());
+			if(getScore()>j.getScore()) {
+				return -1;
+			}else if(getScore()<j.getScore()){
+				return 1;
+			}else {
+				return 0;
+			}
 		}
 }
