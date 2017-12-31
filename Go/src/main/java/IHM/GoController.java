@@ -273,6 +273,7 @@ public class GoController {
 				go.suppressionPierreMorte(getGridX((int)event.getX()), getGridY((int)event.getY()));
 				j1Passe_btn.setDisable(false);
 				j2Passe_btn.setDisable(false);
+				displayUpdate();
 			}
 		}
 	}
